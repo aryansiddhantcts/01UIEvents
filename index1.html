@@ -1,181 +1,258 @@
-<!-- URL to mashup
- https://ui-events-app.cfapps.us10-001.hana.ondemand.com/index1.html?urlp_custid=w434&urlp_custname=324&urlp_uuid=3243&urlp_sex=3243 
- 
--->
+<!-- 
+ https://ui-events-app.cfapps.us10-001.hana.ondemand.com/index1.html?urlp_custid=w434&urlp_custname=324&urlp_uuid=3243&urlp_sex=3243
+ -->
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-.wrap{font-family:var(--font-sans);color:var(--color-text-primary);padding:1rem 0;max-width:520px;}
-.page-title{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-secondary);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;}
-.page-title svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
-.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
-.card-title{font-size:15px;font-weight:500;color:var(--color-text-primary);}
-.refresh-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--border-radius-md);font-family:var(--font-sans);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);}
-.refresh-btn:hover{background:var(--color-background-tertiary);}
+.app{background:#f8f7f5;padding:16px;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1a1916;min-height:100vh;}
+
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
+.header-left{display:flex;align-items:center;gap:10px;}
+.hicon{width:36px;height:36px;background:#1a56db;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hicon svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.htitle{font-size:clamp(13px,2.5vw,15px);font-weight:600;color:#1a1916;letter-spacing:-0.01em;}
+.hsub{font-size:clamp(10px,1.8vw,11px);color:#8a8880;font-family:'Courier New',monospace;}
+.live-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;background:#edfaf3;border:1px solid rgba(14,122,78,0.25);border-radius:20px;font-size:11px;font-weight:600;color:#0e7a4e;white-space:nowrap;}
+.ldot{width:6px;height:6px;border-radius:50%;background:#0e7a4e;animation:pulse 2s infinite;}
+
+.main-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start;}
+
+.card{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;}
+.card-head{padding:13px 15px 0;display:flex;align-items:center;justify-content:space-between;}
+.card-icon-row{display:flex;align-items:center;gap:8px;}
+.cicon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.cicon svg{width:13px;height:13px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ci-blue{background:#eef3fd;} .ci-blue svg{stroke:#1a56db;}
+.ci-purple{background:#EEEDFE;} .ci-purple svg{stroke:#534AB7;}
+.ci-teal{background:#E1F5EE;} .ci-teal svg{stroke:#0F6E56;}
+.ctitle{font-size:clamp(11px,2vw,13px);font-weight:600;color:#1a1916;}
+
+.card-body{padding:12px 15px 15px;}
+
+.refresh-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(0,0,0,0.1);background:#f5f4f0;color:#5f5e5a;white-space:nowrap;}
+.refresh-btn:hover{background:#e8e7e2;}
 .refresh-btn:active{transform:scale(0.97);}
-.refresh-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:var(--color-text-secondary);}
-.field input[type=text]{width:100%;padding:8px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:var(--font-mono);font-size:12px;color:var(--color-text-primary);outline:none;}
-.field input[type=text]:focus{border-color:var(--color-border-info);}
-.divider{height:0.5px;background:var(--color-border-tertiary);margin:1rem 0;}
-.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--border-radius-md);font-family:var(--font-sans);font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid transparent;transition:opacity 0.12s;}
-.btn:active{transform:scale(0.97);}
-.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
-.btn-blue{background:#E6F1FB;border-color:#85B7EB;color:#0C447C;}
-.btn-blue:hover{background:#B5D4F4;}
-.btn-green{background:#EAF3DE;border-color:#97C459;color:#27500A;}
-.btn-green:hover{background:#C0DD97;}
-.btn-teal{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
-.btn-teal:hover{background:#9FE1CB;}
-.btn-amber{background:#FAEEDA;border-color:#EF9F27;color:#633806;}
-.btn-amber:hover{background:#FAC775;}
-.toast{border-radius:var(--border-radius-md);padding:10px 14px;font-size:12px;font-family:var(--font-mono);color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);text-align:center;margin-top:1rem;transition:all 0.2s;}
-.toast.ok{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success);}
-.toast.warn{background:var(--color-background-warning);border-color:var(--color-border-warning);color:var(--color-text-warning);}
+.refresh-btn svg{width:11px;height:11px;stroke:#5f5e5a;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+
+.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.flbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8880;}
+.finput{width:100%;padding:7px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#f8f7f5;font-family:'Courier New',monospace;font-size:clamp(11px,1.8vw,12px);color:#1a1916;outline:none;transition:border-color 0.15s,background 0.15s;}
+.finput:focus{border-color:#1a56db;background:#fff;box-shadow:0 0 0 3px rgba(26,86,219,0.08);}
+.finput::placeholder{color:#b8b6b2;}
+.finput.sans{font-family:'Segoe UI',sans-serif;}
+
+.abtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;}
+.abtn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;text-align:left;transition:transform 0.1s,background 0.15s;}
+.abtn:active{transform:scale(0.97);}
+.abtn-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.abtn-ico svg{width:13px;height:13px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.abtn-lbl{font-size:clamp(11px,1.8vw,12px);font-weight:600;display:block;letter-spacing:-0.005em;}
+.abtn-sub{font-size:10px;font-weight:500;opacity:0.6;display:block;margin-top:1px;}
+
+.ab-blue{background:#eef3fd;border-color:rgba(26,86,219,0.18);color:#0c447c;}
+.ab-blue .abtn-ico{background:rgba(26,86,219,0.12);} .ab-blue .abtn-ico svg{stroke:#1a56db;}
+.ab-blue:hover{background:#dce8fc;}
+.ab-green{background:#edfaf3;border-color:rgba(14,122,78,0.18);color:#085041;}
+.ab-green .abtn-ico{background:rgba(14,122,78,0.12);} .ab-green .abtn-ico svg{stroke:#0e7a4e;}
+.ab-green:hover{background:#d5f5e8;}
+.ab-teal{background:#E1F5EE;border-color:rgba(15,110,86,0.2);color:#085041;}
+.ab-teal .abtn-ico{background:rgba(15,110,86,0.12);} .ab-teal .abtn-ico svg{stroke:#0F6E56;}
+.ab-teal:hover{background:#c5eedd;}
+.ab-amber{background:#FAEEDA;border-color:rgba(180,83,9,0.2);color:#633806;}
+.ab-amber .abtn-ico{background:rgba(180,83,9,0.1);} .ab-amber .abtn-ico svg{stroke:#854F0B;}
+.ab-amber:hover{background:#f5e0bb;}
+
+.toast{border-radius:10px;padding:10px 14px;font-size:clamp(11px,1.8vw,12px);font-family:'Courier New',monospace;color:#8a8880;background:#f5f4f0;border:1px solid rgba(0,0,0,0.07);text-align:center;margin-top:14px;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tdot{width:7px;height:7px;border-radius:50%;background:#b8b6b2;flex-shrink:0;}
+.toast.ok{background:#edfaf3;border-color:rgba(14,122,78,0.25);color:#0e7a4e;}
+.toast.ok .tdot{background:#0e7a4e;}
+.toast.warn{background:#fff8ed;border-color:rgba(180,83,9,0.25);color:#b45309;}
+.toast.warn .tdot{background:#b45309;}
+
+.size-hint{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 12px;background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:20px;font-size:11px;color:#8a8880;margin-bottom:14px;width:fit-content;}
+.size-hint svg{width:12px;height:12px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#size-label{font-family:'Courier New',monospace;font-size:11px;color:#1a56db;font-weight:600;}
+
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
 </style>
 
-<div class="wrap">
-<h2 class="sr-only">Customer overview and case management extension panel</h2>
+<div class="app" id="app">
+<h2 class="sr-only">Responsive customer portal with auto-adapting layout</h2>
 
-<div class="page-title">
-  <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
-  Customer overview
-</div>
-
-<div class="card">
-  <div class="card-header">
-    <span class="card-title">Customer details</span>
-    <button class="refresh-btn" onclick="refreshcustomer()">
-      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
-      Refresh
-    </button>
+<div class="header">
+  <div class="header-left">
+    <div class="hicon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div>
+      <div class="htitle">Customer portal</div>
+      <div class="hsub">CSR workspace</div>
+    </div>
   </div>
-  <div class="fields">
-    <div class="field">
-      <label for="i-customer_id">Customer ID</label>
-      <input type="text" id="i-customer_id" readonly placeholder="—">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <div class="size-hint">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span id="size-label">— px</span>
     </div>
-    <div class="field">
-      <label for="i-customer_name">Name</label>
-      <input type="text" id="i-customer_name" readonly placeholder="—">
-    </div>
-    <div class="field">
-      <label for="i-uuid">UUID</label>
-      <input type="text" id="i-uuid" readonly placeholder="—">
-    </div>
-    <div class="field">
-      <label for="i-sex">Sex</label>
-      <input type="text" id="i-sex" readonly placeholder="—">
-    </div>
+    <div class="live-pill"><div class="ldot"></div>Live</div>
   </div>
 </div>
 
-<div class="card">
-  <div class="card-header" style="margin-bottom:12px;">
-    <span class="card-title">Quick actions for CSR</span>
+<div class="main-grid" id="main-grid">
+
+  <div class="card">
+    <div class="card-head">
+      <div class="card-icon-row">
+        <div class="cicon ci-blue"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <span class="ctitle">Customer details</span>
+      </div>
+      <button class="refresh-btn" onclick="refreshcustomer()">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        Refresh
+      </button>
+    </div>
+    <div class="card-body">
+      <div class="fields">
+        <div class="field">
+          <span class="flbl">Customer ID</span>
+          <input class="finput" type="text" id="i-customer_id" readonly placeholder="—">
+        </div>
+        <div class="field">
+          <span class="flbl">Name</span>
+          <input class="finput sans" type="text" id="i-customer_name" readonly placeholder="—">
+        </div>
+        <div class="field">
+          <span class="flbl">UUID</span>
+          <input class="finput" type="text" id="i-uuid" readonly placeholder="—">
+        </div>
+        <div class="field">
+          <span class="flbl">Sex</span>
+          <input class="finput sans" type="text" id="i-sex" readonly placeholder="—">
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="btn-row">
-    <button class="btn btn-blue" onclick="openNewCnsCaseList()">
-      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-      Case list
-    </button>
-    <button class="btn btn-green" onclick="openNewCnsCaseCreate()">
-      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      Quick case create
-    </button>
+
+  <div style="display:flex;flex-direction:column;gap:14px;">
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon-row">
+          <div class="cicon ci-purple"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+          <span class="ctitle">Quick actions for CSR</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="abtns">
+          <button class="abtn ab-blue" onclick="openNewCnsCaseList()">
+            <div class="abtn-ico"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+            <div><span class="abtn-lbl">Case list</span><span class="abtn-sub">View all cases</span></div>
+          </button>
+          <button class="abtn ab-green" onclick="openNewCnsCaseCreate()">
+            <div class="abtn-ico"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+            <div><span class="abtn-lbl">Quick create</span><span class="abtn-sub">New case</span></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon-row">
+          <div class="cicon ci-teal"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <span class="ctitle">Case lookup</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="fields" style="margin-bottom:12px;">
+          <div class="field">
+            <span class="flbl">Case ID</span>
+            <input class="finput" type="text" id="i-case_id" placeholder="e.g. CASE-20481">
+          </div>
+          <div class="field">
+            <span class="flbl">Case UUID</span>
+            <input class="finput" type="text" id="i-case_uuid" value="0329dfe5-74af-11f0-8699-d9e094fa55ba">
+          </div>
+        </div>
+        <div class="abtns">
+          <button class="abtn ab-teal" onclick="openquickview()">
+            <div class="abtn-ico"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+            <div><span class="abtn-lbl">Quick view</span><span class="abtn-sub">Preview case</span></div>
+          </button>
+          <button class="abtn ab-amber" onclick="opencasedetails()">
+            <div class="abtn-ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div><span class="abtn-lbl">Case details</span><span class="abtn-sub">Full case view</span></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<div class="card">
-  <div class="card-header" style="margin-bottom:12px;">
-    <span class="card-title">Case lookup</span>
-  </div>
-  <div class="fields" style="margin-bottom:14px;">
-    <div class="field">
-      <label for="i-case_id">Case ID</label>
-      <input type="text" id="i-case_id" placeholder="e.g. CASE-20481">
-    </div>
-    <div class="field">
-      <label for="i-case_uuid">Case UUID</label>
-      <input type="text" id="i-case_uuid" placeholder="e.g. f47ac10b-58cc…">
-    </div>
-  </div>
-  <div class="btn-row">
-    <button class="btn btn-teal" onclick="openquickview()">
-      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-      Quick view
-    </button>
-    <button class="btn btn-amber" onclick="opencasedetails()">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-      Case details
-    </button>
-  </div>
-</div>
-
-<div class="toast" id="toast">Load a page with URL parameters to populate customer details</div>
+<div class="toast" id="toast"><div class="tdot"></div><span id="tmsg">Load a page with URL parameters to populate customer details</span></div>
 
 </div>
 
 <script>
 function getUrlParams(){
   var p=new URLSearchParams(window.location.search);
-  var zcustid=p.get('urlp_custid');
-  var zcustname=p.get('urlp_custname');
-  var zcustuuid=p.get('urlp_uuid');
-  var zcustsex=p.get('urlp_sex');
-  document.getElementById('i-customer_id').value=zcustid||'';
-  document.getElementById('i-customer_name').value=zcustname||'';
-  document.getElementById('i-uuid').value=zcustuuid||'';
-  document.getElementById('i-sex').value=zcustsex||'';
-  if(zcustid||zcustname){setToast('Customer data loaded',true);}
+  var id=p.get('urlp_custid'),nm=p.get('urlp_custname'),uu=p.get('urlp_uuid'),sx=p.get('urlp_sex');
+  document.getElementById('i-customer_id').value=id||'';
+  document.getElementById('i-customer_name').value=nm||'';
+  document.getElementById('i-uuid').value=uu||'';
+  document.getElementById('i-sex').value=sx||'';
+  if(id||nm) setToast('Customer data loaded successfully','ok');
 }
 
 function refreshcustomer(){
   getUrlParams();
-  var event = {  event: "accountRefreshEvent",
-                operation: "triggerCustomAction"
-              };
-      window.parent.postMessage(event, '*')
-  setToast('Refreshed successfully',true);
+  window.parent.postMessage({event:'accountRefreshEvent',operation:'triggerCustomAction'},'*');
+  setToast('Refreshed successfully','ok');
 }
 
-function setToast(msg,ok,warn){
-  var el=document.getElementById('toast');
-  el.textContent=msg;
-  el.className='toast'+(ok?' ok':warn?' warn':'');
+function setToast(msg,type){
+  document.getElementById('tmsg').textContent=msg;
+  document.getElementById('toast').className='toast'+(type?' '+type:'');
 }
 
 function openNewCnsCaseList(){
-  var oCase={operation:'navigation',params:{routingKey:'case',viewType:'list'}};
-  window.parent.postMessage(oCase,'*');
-  setToast('Navigating to case list…');
+  window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'list'}},'*');
+  setToast('Navigating to case list…','');
 }
 
 function openNewCnsCaseCreate(){
-  var oCase={operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}};
-  self.window.parent.postMessage(oCase,'*');
-  setToast('Opening quick case create…');
+  self.window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}},'*');
+  setToast('Opening quick case create…','');
 }
 
 function openquickview(){
-  var zobjkey=document.getElementById('i-case_uuid').value.trim();
-  if(!zobjkey){setToast('Enter a Case UUID first',false,true);return;}
-  var oCase={operation:'navigation',params:{objectKey:zobjkey,routingKey:'case',viewType:'quickview'}};
-  self.window.parent.postMessage(oCase,'*');
-  setToast('Opening quick view for '+zobjkey);
+  var k=document.getElementById('i-case_uuid').value.trim();
+  if(!k){setToast('Enter a Case UUID first','warn');return;}
+  self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'quickview'}},'*');
+  setToast('Opening quick view for '+k,'ok');
 }
 
 function opencasedetails(){
-  var zobjkey=document.getElementById('i-case_uuid').value.trim();
-  if(!zobjkey){setToast('Enter a Case UUID first',false,true);return;}
-  var oCase={operation:'navigation',params:{objectKey:zobjkey,routingKey:'case',viewType:'details'}};
-  self.window.parent.postMessage(oCase,'*');
-  setToast('Opening case details for '+zobjkey);
+  var k=document.getElementById('i-case_uuid').value.trim();
+  if(!k){setToast('Enter a Case UUID first','warn');return;}
+  self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'details'}},'*');
+  setToast('Opening case details for '+k,'ok');
 }
 
-window.onload=getUrlParams;
+function updateSizeLabel(){
+  var w=document.getElementById('app').offsetWidth;
+  document.getElementById('size-label').textContent=w+'px';
+  var grid=document.getElementById('main-grid');
+  if(w<480){
+    grid.style.gridTemplateColumns='1fr';
+  } else if(w<720){
+    grid.style.gridTemplateColumns='1fr';
+  } else {
+    grid.style.gridTemplateColumns='repeat(auto-fit,minmax(260px,1fr))';
+  }
+}
+
+var ro=new ResizeObserver(updateSizeLabel);
+ro.observe(document.getElementById('app'));
+window.onload=function(){getUrlParams();updateSizeLabel();};
 </script>
