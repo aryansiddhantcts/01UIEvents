@@ -1,4 +1,4 @@
 applications:
-- name: my-mashup-sample
+- name: ui-events-app
   memory: 128M
   buildpack: https://github.com/cloudfoundry/staticfile-buildpack

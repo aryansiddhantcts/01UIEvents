@@ -1,0 +1,384 @@
+
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+.p { font-family: var(--font-sans); color: var(--color-text-primary); padding: 1rem 0; }
+.sec { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+.sec-title { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-secondary); margin-bottom: 12px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon { width: 36px; height: 36px; background: #185FA5; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.brand-icon svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.brand-name { font-size: 15px; font-weight: 500; }
+.brand-sub { font-size: 11px; color: var(--color-text-secondary); font-family: var(--font-mono); }
+.live-pill { display: flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; border: 0.5px solid var(--color-border-success); background: var(--color-background-success); font-size: 12px; font-weight: 500; color: var(--color-text-success); }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--color-text-success); animation: pulse 2s infinite; }
+.fields-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(0,1fr)); gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.flabel { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-secondary); }
+.fval { font-size: 13px; font-weight: 500; color: var(--color-text-primary); font-family: var(--font-mono); word-break: break-all; }
+.fval.empty { color: var(--color-text-secondary); font-style: italic; font-weight: 400; font-family: var(--font-sans); }
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 6px; font-family: var(--font-mono); }
+.badge-blue { background: #E6F1FB; color: #0C447C; border: 0.5px solid #85B7EB; }
+.badge-teal { background: #E1F5EE; color: #085041; border: 0.5px solid #5DCAA5; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-primary); transition: opacity 0.12s; }
+.btn:active { transform: scale(0.98); }
+.btn svg { width: 14px; height: 14px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke: currentColor; flex-shrink: 0; }
+.btn-blue { background: #E6F1FB; border-color: #85B7EB; color: #0C447C; }
+.btn-blue:hover { background: #B5D4F4; }
+.btn-green { background: #EAF3DE; border-color: #97C459; color: #27500A; }
+.btn-green:hover { background: #C0DD97; }
+.btn-purple { background: #EEEDFE; border-color: #AFA9EC; color: #3C3489; }
+.btn-purple:hover { background: #CECBF6; }
+.btn-teal { background: #E1F5EE; border-color: #5DCAA5; color: #085041; }
+.btn-teal:hover { background: #9FE1CB; }
+.btn-amber { background: #FAEEDA; border-color: #EF9F27; color: #633806; }
+.btn-amber:hover { background: #FAC775; }
+.input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.inp-grp { display: flex; flex-direction: column; gap: 6px; }
+.inp-lbl { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-secondary); }
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1rem 0; }
+.toast { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 12px; font-family: var(--font-mono); color: var(--color-text-secondary); text-align: center; margin-top: 1rem; transition: all 0.2s; }
+.toast.ok { border-color: var(--color-border-success); background: var(--color-background-success); color: var(--color-text-success); }
+.toast.warn { border-color: var(--color-border-warning); background: var(--color-background-warning); color: var(--color-text-warning); }
+.overlay { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.4); z-index: 10; align-items: center; justify-content: center; padding: 1rem; min-height: 500px; }
+.overlay.open { display: flex; }
+.modal { background: var(--color-background-primary); border-radius: var(--border-radius-lg); border: 0.5px solid var(--color-border-tertiary); width: 100%; max-width: 420px; overflow: hidden; }
+.mhdr { padding: 1rem 1.25rem; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; justify-content: space-between; }
+.mtitle { font-size: 15px; font-weight: 500; }
+.mclose { width: 28px; height: 28px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--color-text-secondary); }
+.mbody { padding: 1.25rem; }
+.mrow { display: flex; justify-content: space-between; align-items: flex-start; padding: 9px 0; border-bottom: 0.5px solid var(--color-border-tertiary); gap: 1rem; }
+.mrow:last-child { border-bottom: none; padding-bottom: 0; }
+.mk { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.06em; flex-shrink: 0; min-width: 100px; }
+.mv { font-size: 13px; font-weight: 500; color: var(--color-text-primary); text-align: right; word-break: break-all; }
+.mv.mono { font-family: var(--font-mono); font-size: 11px; font-weight: 400; }
+.mv.empty { color: var(--color-text-secondary); font-style: italic; font-weight: 400; }
+.mfoot { padding: 1rem 1.25rem; border-top: 0.5px solid var(--color-border-tertiary); display: flex; gap: 8px; justify-content: flex-end; }
+.mbtn { padding: 8px 16px; border-radius: var(--border-radius-md); font-family: var(--font-sans); font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.mbtn.primary { background: #185FA5; color: #E6F1FB; border-color: #185FA5; }
+.mbtn.primary:hover { background: #0C447C; }
+.url-bar { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 14px; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); margin-bottom: 1rem; word-break: break-all; line-height: 1.8; }
+.url-bar .pk { color: #185FA5; font-weight: 500; }
+.url-bar .pv { color: #0F6E56; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+@media(max-width:480px) { .input-row{grid-template-columns:1fr} .btn-row{flex-direction:column} .fields-grid{grid-template-columns:1fr 1fr} }
+</style>
+
+<div class="p" style="position:relative;">
+<h2 class="sr-only">Customer case portal — reads customer details from URL parameters and provides case lookup and navigation actions</h2>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+    <div>
+      <div class="brand-name">Customer Portal</div>
+      <div class="brand-sub">Case Management</div>
+    </div>
+  </div>
+  <div class="live-pill"><div class="live-dot"></div>Live</div>
+</div>
+
+<div class="url-bar" id="url-bar">No URL parameters detected</div>
+
+<div class="sec">
+  <div class="sec-title">Customer info</div>
+  <div class="fields-grid" style="grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem 2rem;">
+    <div class="field">
+      <div class="flabel">Customer ID</div>
+      <div class="fval empty" id="f-custid">—</div>
+    </div>
+    <div class="field">
+      <div class="flabel">Name</div>
+      <div class="fval empty" id="f-name" style="font-family:var(--font-sans);">—</div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <div class="flabel">UUID</div>
+      <div class="fval empty" id="f-uuid">—</div>
+    </div>
+    <div class="field" style="margin-top:10px;">
+      <div class="flabel">Category</div>
+      <div id="f-cat-wrap"><span class="fval empty" id="f-cat">—</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Customer actions</div>
+  <div class="btn-row">
+    <button class="btn btn-blue" onclick="showParams()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Display parameters
+    </button>
+    <button class="btn btn-green" onclick="openCaseListQV()">
+      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Quick view — case list
+    </button>
+    <button class="btn btn-purple" onclick="openQuickCreate()">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Quick create case
+    </button>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-title">Case lookup</div>
+  <div class="input-row">
+    <div class="inp-grp">
+      <label class="inp-lbl" for="inp-caseid">Case ID</label>
+      <input type="text" id="inp-caseid" placeholder="e.g. CASE-20481" style="width:100%;"/>
+    </div>
+    <div class="inp-grp">
+      <label class="inp-lbl" for="inp-caseuuid">Case UUID</label>
+      <input type="text" id="inp-caseuuid" placeholder="e.g. f47ac10b-58cc…" style="width:100%;"/>
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-teal" onclick="openCaseQV()">
+      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      Quick view
+    </button>
+    <button class="btn btn-amber" onclick="openCaseDetail()">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Detail view
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Load a page with URL params or use the demo buttons above</div>
+
+<button class="btn" style="width:100%;justify-content:center;margin-top:1rem;" onclick="loadDemo()">
+  <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+  Load demo data
+</button>
+
+<!-- Params Modal -->
+<div class="overlay" id="modal-params">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">URL parameters</div><button class="mclose" onclick="close('modal-params')">✕</button></div>
+    <div class="mbody" id="params-body"></div>
+    <div class="mfoot"><button class="mbtn" onclick="close('modal-params')">Close</button></div>
+  </div>
+</div>
+
+<!-- Case List QV Modal -->
+<div class="overlay" id="modal-caselist">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">Case list — quick view</div><button class="mclose" onclick="close('modal-caselist')">✕</button></div>
+    <div class="mbody">
+      <div class="mrow"><span class="mk">Customer</span><span class="mv" id="cl-name">—</span></div>
+      <div class="mrow"><span class="mk">Customer ID</span><span class="mv mono" id="cl-custid">—</span></div>
+      <div class="mrow"><span class="mk">Category</span><span class="mv" id="cl-cat">—</span></div>
+      <div class="mrow"><span class="mk">Action</span><span class="mv" style="color:#185FA5;">Navigate → case list</span></div>
+    </div>
+    <div class="mfoot">
+      <button class="mbtn" onclick="close('modal-caselist')">Cancel</button>
+      <button class="mbtn primary" onclick="navCaseList()">Open case list</button>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Create Modal -->
+<div class="overlay" id="modal-create">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">Quick create case</div><button class="mclose" onclick="close('modal-create')">✕</button></div>
+    <div class="mbody">
+      <div style="margin-bottom:12px;"><label class="inp-lbl" style="display:block;margin-bottom:6px;" for="nc-name">Case name</label><input type="text" id="nc-name" placeholder="e.g. Login issue" style="width:100%;"/></div>
+      <div style="margin-bottom:12px;"><label class="inp-lbl" style="display:block;margin-bottom:6px;" for="nc-acct">Account</label><input type="text" id="nc-acct" placeholder="e.g. Acme Corp" style="width:100%;"/></div>
+      <div style="margin-bottom:12px;"><label class="inp-lbl" style="display:block;margin-bottom:6px;" for="nc-pri">Priority</label><select id="nc-pri" style="width:100%;"><option>Low</option><option selected>Medium</option><option>High</option><option>Critical</option></select></div>
+      <div><label class="inp-lbl" style="display:block;margin-bottom:6px;" for="nc-desc">Description</label><textarea id="nc-desc" rows="3" placeholder="Describe the issue…" style="width:100%;resize:vertical;"></textarea></div>
+    </div>
+    <div class="mfoot">
+      <button class="mbtn" onclick="close('modal-create')">Cancel</button>
+      <button class="mbtn primary" onclick="submitCreate()">Create case</button>
+    </div>
+  </div>
+</div>
+
+<!-- Case Quick View Modal -->
+<div class="overlay" id="modal-case-qv">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">Case — quick view</div><button class="mclose" onclick="close('modal-case-qv')">✕</button></div>
+    <div class="mbody">
+      <div class="mrow"><span class="mk">Case ID</span><span class="mv mono" id="qv-caseid">—</span></div>
+      <div class="mrow"><span class="mk">UUID</span><span class="mv mono" id="qv-uuid">—</span></div>
+      <div class="mrow"><span class="mk">Customer</span><span class="mv" id="qv-cust">—</span></div>
+      <div class="mrow"><span class="mk">Status</span><span class="mv" style="color:#0F6E56;">Open</span></div>
+    </div>
+    <div class="mfoot">
+      <button class="mbtn" onclick="close('modal-case-qv')">Close</button>
+      <button class="mbtn primary" onclick="close('modal-case-qv');openCaseDetail()">Detail view</button>
+    </div>
+  </div>
+</div>
+
+<!-- Case Detail Modal -->
+<div class="overlay" id="modal-case-detail">
+  <div class="modal">
+    <div class="mhdr"><div class="mtitle">Case — detail view</div><button class="mclose" onclick="close('modal-case-detail')">✕</button></div>
+    <div class="mbody">
+      <div class="mrow"><span class="mk">Case ID</span><span class="mv mono" id="dv-caseid">—</span></div>
+      <div class="mrow"><span class="mk">UUID</span><span class="mv mono" id="dv-uuid">—</span></div>
+      <div class="mrow"><span class="mk">Customer</span><span class="mv" id="dv-cust">—</span></div>
+      <div class="mrow"><span class="mk">Customer ID</span><span class="mv mono" id="dv-custid">—</span></div>
+      <div class="mrow"><span class="mk">Category</span><span class="mv" id="dv-cat">—</span></div>
+      <div class="mrow"><span class="mk">Priority</span><span class="mv" style="color:#854F0B;">Medium</span></div>
+      <div class="mrow"><span class="mk">Status</span><span class="mv" style="color:#0F6E56;">Open</span></div>
+      <div class="mrow"><span class="mk">Created</span><span class="mv" id="dv-created">—</span></div>
+    </div>
+    <div class="mfoot"><button class="mbtn" onclick="close('modal-case-detail')">Close</button></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+var cust = { id: null, uuid: null, name: null, category: null };
+
+function v(s){ return (s && s.trim()) ? s.trim() : null; }
+
+function readParams(){
+  var p = new URLSearchParams(window.location.search);
+  cust.id       = v(p.get('customerId') || p.get('customerid') || p.get('customer_id') || p.get('custId') || p.get('custid'));
+  cust.uuid     = v(p.get('uuid') || p.get('customerUuid') || p.get('customerUUID'));
+  cust.name     = v(p.get('name') || p.get('customerName') || p.get('customer_name'));
+  cust.category = v(p.get('category') || p.get('cat'));
+
+  var bar = document.getElementById('url-bar');
+  var raw = window.location.href;
+  if(raw.indexOf('?') === -1){ bar.textContent = 'No URL parameters detected'; }
+  else {
+    bar.innerHTML = raw.replace(/([?&])(\w+)=([^&]*)/g, function(m,sep,k,val){
+      return sep+'<span class="pk">'+k+'</span>=<span class="pv">'+decodeURIComponent(val)+'</span>';
+    });
+  }
+
+  function fset(id, val, mono){
+    var el = document.getElementById(id);
+    if(!el) return;
+    if(val){ el.textContent = val; el.classList.remove('empty'); if(mono) el.style.fontFamily='var(--font-mono)'; }
+    else   { el.textContent = '—'; el.classList.add('empty'); }
+  }
+
+  fset('f-custid', cust.id, true);
+  fset('f-uuid', cust.uuid, true);
+  fset('f-name', cust.name, false);
+
+  var catWrap = document.getElementById('f-cat-wrap');
+  if(cust.category){
+    catWrap.innerHTML = '<span class="badge badge-teal">'+cust.category+'</span>';
+  } else {
+    catWrap.innerHTML = '<span class="fval empty" id="f-cat">—</span>';
+  }
+
+  fset('cl-name', cust.name, false);
+  fset('cl-custid', cust.id, true);
+  fset('cl-cat', cust.category, false);
+
+  if(cust.id || cust.name){ toast('Customer parameters loaded', true); }
+}
+
+function loadDemo(){
+  cust = { id: 'CUST-8821', uuid: 'a1b2c3d4-e5f6-7890-abcd-ef1234567890', name: 'Priya Mehta', category: 'Enterprise' };
+  document.getElementById('f-custid').textContent = cust.id; document.getElementById('f-custid').classList.remove('empty');
+  document.getElementById('f-uuid').textContent = cust.uuid; document.getElementById('f-uuid').classList.remove('empty');
+  document.getElementById('f-name').textContent = cust.name; document.getElementById('f-name').classList.remove('empty');
+  document.getElementById('f-cat-wrap').innerHTML = '<span class="badge badge-teal">'+cust.category+'</span>';
+  document.getElementById('cl-name').textContent = cust.name; document.getElementById('cl-name').classList.remove('empty');
+  document.getElementById('cl-custid').textContent = cust.id; document.getElementById('cl-custid').classList.remove('empty');
+  document.getElementById('cl-cat').textContent = cust.category; document.getElementById('cl-cat').classList.remove('empty');
+  document.getElementById('inp-caseid').value = 'CASE-20481';
+  document.getElementById('inp-caseuuid').value = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
+  document.getElementById('url-bar').innerHTML = 'demo://?<span class="pk">customerId</span>=<span class="pv">CUST-8821</span>&<span class="pk">name</span>=<span class="pv">Priya Mehta</span>&<span class="pk">uuid</span>=<span class="pv">a1b2c3d4-e5f6…</span>&<span class="pk">category</span>=<span class="pv">Enterprise</span>';
+  toast('Demo data loaded', true);
+}
+
+function toast(msg, ok, warn){
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.toggle('ok', !!ok);
+  el.classList.toggle('warn', !!warn);
+}
+
+function open(id){ document.getElementById(id).classList.add('open'); }
+function close(id){ document.getElementById(id).classList.remove('open'); }
+
+function showParams(){
+  var p = new URLSearchParams(window.location.search);
+  var body = document.getElementById('params-body');
+  var rows = '';
+  var keys = ['customerId','uuid','name','category'];
+  keys.forEach(function(k){
+    var val = p.get(k);
+    rows += '<div class="mrow"><span class="mk">'+k+'</span><span class="mv mono">'+(val ? decodeURIComponent(val) : '<em style=\"font-style:italic;color:var(--color-text-secondary)\">not set</em>')+'</span></div>';
+  });
+  p.forEach(function(val,k){
+    if(keys.indexOf(k)===-1) rows += '<div class="mrow"><span class="mk">'+k+'</span><span class="mv mono">'+decodeURIComponent(val)+'</span></div>';
+  });
+  if(!rows) rows = '<p style="font-size:13px;color:var(--color-text-secondary);">No URL parameters found. Try loading demo data first.</p>';
+  body.innerHTML = rows;
+  open('modal-params');
+}
+
+function openCaseListQV(){
+  document.getElementById('cl-name').textContent = cust.name || '—';
+  document.getElementById('cl-custid').textContent = cust.id || '—';
+  document.getElementById('cl-cat').textContent = cust.category || '—';
+  open('modal-caselist');
+}
+
+function navCaseList(){
+  close('modal-caselist');
+  window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'list'}},'*');
+  toast('Navigating to case list…');
+}
+
+function openQuickCreate(){ open('modal-create'); }
+
+function submitCreate(){
+  var name = document.getElementById('nc-name').value.trim();
+  if(!name){ toast('Please enter a case name', false, true); return; }
+  var newId = 'CASE-' + Math.floor(10000 + Math.random() * 90000);
+  close('modal-create');
+  toast(newId + ' created — "' + name + '"', true);
+  window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}},'*');
+  document.getElementById('nc-name').value='';
+  document.getElementById('nc-acct').value='';
+  document.getElementById('nc-desc').value='';
+}
+
+function getCaseInputs(){
+  return {
+    caseId: document.getElementById('inp-caseid').value.trim(),
+    caseUuid: document.getElementById('inp-caseuuid').value.trim()
+  };
+}
+
+function openCaseQV(){
+  var d = getCaseInputs();
+  if(!d.caseId && !d.caseUuid){ toast('Enter a Case ID or UUID first', false, true); return; }
+  document.getElementById('qv-caseid').textContent = d.caseId || '—';
+  document.getElementById('qv-uuid').textContent = d.caseUuid || '—';
+  document.getElementById('qv-cust').textContent = cust.name || '—';
+  open('modal-case-qv');
+}
+
+function openCaseDetail(){
+  var d = getCaseInputs();
+  if(!d.caseId && !d.caseUuid){ toast('Enter a Case ID or UUID first', false, true); return; }
+  document.getElementById('dv-caseid').textContent = d.caseId || '—';
+  document.getElementById('dv-uuid').textContent = d.caseUuid || '—';
+  document.getElementById('dv-cust').textContent = cust.name || '—';
+  document.getElementById('dv-custid').textContent = cust.id || '—';
+  document.getElementById('dv-cat').textContent = cust.category || '—';
+  document.getElementById('dv-created').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  open('modal-case-detail');
+}
+
+document.querySelectorAll('.overlay').forEach(function(el){
+  el.addEventListener('click', function(e){ if(e.target===el) el.classList.remove('open'); });
+});
+
+readParams();
+</script>

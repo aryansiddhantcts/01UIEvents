@@ -1,0 +1,181 @@
+<!-- URL to mashup
+ https://ui-events-app.cfapps.us10-001.hana.ondemand.com/index1.html?urlp_custid=w434&urlp_custname=324&urlp_uuid=3243&urlp_sex=3243 
+ 
+-->
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{font-family:var(--font-sans);color:var(--color-text-primary);padding:1rem 0;max-width:520px;}
+.page-title{font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--color-text-secondary);margin-bottom:1.25rem;display:flex;align-items:center;gap:8px;}
+.page-title svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.card-title{font-size:15px;font-weight:500;color:var(--color-text-primary);}
+.refresh-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:var(--border-radius-md);font-family:var(--font-sans);font-size:12px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-secondary);}
+.refresh-btn:hover{background:var(--color-background-tertiary);}
+.refresh-btn:active{transform:scale(0.97);}
+.refresh-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:var(--color-text-secondary);}
+.field input[type=text]{width:100%;padding:8px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);font-family:var(--font-mono);font-size:12px;color:var(--color-text-primary);outline:none;}
+.field input[type=text]:focus{border-color:var(--color-border-info);}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1rem 0;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:var(--border-radius-md);font-family:var(--font-sans);font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid transparent;transition:opacity 0.12s;}
+.btn:active{transform:scale(0.97);}
+.btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.btn-blue{background:#E6F1FB;border-color:#85B7EB;color:#0C447C;}
+.btn-blue:hover{background:#B5D4F4;}
+.btn-green{background:#EAF3DE;border-color:#97C459;color:#27500A;}
+.btn-green:hover{background:#C0DD97;}
+.btn-teal{background:#E1F5EE;border-color:#5DCAA5;color:#085041;}
+.btn-teal:hover{background:#9FE1CB;}
+.btn-amber{background:#FAEEDA;border-color:#EF9F27;color:#633806;}
+.btn-amber:hover{background:#FAC775;}
+.toast{border-radius:var(--border-radius-md);padding:10px 14px;font-size:12px;font-family:var(--font-mono);color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);text-align:center;margin-top:1rem;transition:all 0.2s;}
+.toast.ok{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success);}
+.toast.warn{background:var(--color-background-warning);border-color:var(--color-border-warning);color:var(--color-text-warning);}
+</style>
+
+<div class="wrap">
+<h2 class="sr-only">Customer overview and case management extension panel</h2>
+
+<div class="page-title">
+  <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+  Customer overview
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">Customer details</span>
+    <button class="refresh-btn" onclick="refreshcustomer()">
+      <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div class="fields">
+    <div class="field">
+      <label for="i-customer_id">Customer ID</label>
+      <input type="text" id="i-customer_id" readonly placeholder="—">
+    </div>
+    <div class="field">
+      <label for="i-customer_name">Name</label>
+      <input type="text" id="i-customer_name" readonly placeholder="—">
+    </div>
+    <div class="field">
+      <label for="i-uuid">UUID</label>
+      <input type="text" id="i-uuid" readonly placeholder="—">
+    </div>
+    <div class="field">
+      <label for="i-sex">Sex</label>
+      <input type="text" id="i-sex" readonly placeholder="—">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" style="margin-bottom:12px;">
+    <span class="card-title">Quick actions for CSR</span>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-blue" onclick="openNewCnsCaseList()">
+      <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Case list
+    </button>
+    <button class="btn btn-green" onclick="openNewCnsCaseCreate()">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Quick case create
+    </button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header" style="margin-bottom:12px;">
+    <span class="card-title">Case lookup</span>
+  </div>
+  <div class="fields" style="margin-bottom:14px;">
+    <div class="field">
+      <label for="i-case_id">Case ID</label>
+      <input type="text" id="i-case_id" placeholder="e.g. CASE-20481">
+    </div>
+    <div class="field">
+      <label for="i-case_uuid">Case UUID</label>
+      <input type="text" id="i-case_uuid" placeholder="e.g. f47ac10b-58cc…">
+    </div>
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-teal" onclick="openquickview()">
+      <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      Quick view
+    </button>
+    <button class="btn btn-amber" onclick="opencasedetails()">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Case details
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Load a page with URL parameters to populate customer details</div>
+
+</div>
+
+<script>
+function getUrlParams(){
+  var p=new URLSearchParams(window.location.search);
+  var zcustid=p.get('urlp_custid');
+  var zcustname=p.get('urlp_custname');
+  var zcustuuid=p.get('urlp_uuid');
+  var zcustsex=p.get('urlp_sex');
+  document.getElementById('i-customer_id').value=zcustid||'';
+  document.getElementById('i-customer_name').value=zcustname||'';
+  document.getElementById('i-uuid').value=zcustuuid||'';
+  document.getElementById('i-sex').value=zcustsex||'';
+  if(zcustid||zcustname){setToast('Customer data loaded',true);}
+}
+
+function refreshcustomer(){
+  getUrlParams();
+  var event = {  event: "accountRefreshEvent",
+                operation: "triggerCustomAction"
+              };
+      window.parent.postMessage(event, '*')
+  setToast('Refreshed successfully',true);
+}
+
+function setToast(msg,ok,warn){
+  var el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='toast'+(ok?' ok':warn?' warn':'');
+}
+
+function openNewCnsCaseList(){
+  var oCase={operation:'navigation',params:{routingKey:'case',viewType:'list'}};
+  window.parent.postMessage(oCase,'*');
+  setToast('Navigating to case list…');
+}
+
+function openNewCnsCaseCreate(){
+  var oCase={operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}};
+  self.window.parent.postMessage(oCase,'*');
+  setToast('Opening quick case create…');
+}
+
+function openquickview(){
+  var zobjkey=document.getElementById('i-case_uuid').value.trim();
+  if(!zobjkey){setToast('Enter a Case UUID first',false,true);return;}
+  var oCase={operation:'navigation',params:{objectKey:zobjkey,routingKey:'case',viewType:'quickview'}};
+  self.window.parent.postMessage(oCase,'*');
+  setToast('Opening quick view for '+zobjkey);
+}
+
+function opencasedetails(){
+  var zobjkey=document.getElementById('i-case_uuid').value.trim();
+  if(!zobjkey){setToast('Enter a Case UUID first',false,true);return;}
+  var oCase={operation:'navigation',params:{objectKey:zobjkey,routingKey:'case',viewType:'details'}};
+  self.window.parent.postMessage(oCase,'*');
+  setToast('Opening case details for '+zobjkey);
+}
+
+window.onload=getUrlParams;
+</script>
