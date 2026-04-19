@@ -173,7 +173,7 @@ td.subject-cell{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow
 <!-- Global Search Bar -->
 <div class="search-wrap" id="search-wrap">
   <svg class="s-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-  <input class="search-input" type="text" id="global-search" placeholder="Search cases, customers, UUIDs…" autocomplete="off" oninput="onSearchInput(this.value)" onfocus="showResults()" />
+  <input class="search-input" type="text" id="global-search" placeholder="Search cases, customers, UUIDs…" autocomplete="off" onkeydown="if(event.key==='Enter') onSearchInput(this.value)" oninput="document.getElementById('search-clear').classList.toggle('visible', this.value.length > 0)" onfocus="showResults()" />
   <button class="search-clear" id="search-clear" onclick="clearSearch()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   <div class="search-results" id="search-results"></div>
 </div>
@@ -185,7 +185,7 @@ td.subject-cell{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow
         <div class="cicon ci-blue"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
         <span class="ctitle">Customer details</span>
       </div>
-      <button class="refresh-btn" onclick="refreshcustomer()">
+      <button class="refresh-btn" onclick="location.reload()">
         <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
         Refresh
       </button>
@@ -349,6 +349,13 @@ function hl(text, q){
 function onSearchInput(val){
   document.getElementById('search-clear').classList.toggle('visible', val.length>0);
   showResults(val);
+  var event = { event: "mashup100.magiccom.customExtendedSearch", 
+                operation: "search", 
+                params: {
+                          $search: val
+                        }
+              };
+  window.parent.postMessage(event, '*')
 }
 function showResults(val){
   val = val !== undefined ? val : document.getElementById('global-search').value;
