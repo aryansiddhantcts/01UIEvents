@@ -1,22 +1,58 @@
-<!-- 
- https://ui-events-app.cfapps.us10-001.hana.ondemand.com/index1.html?urlp_custid=w434&urlp_custname=324&urlp_uuid=3243&urlp_sex=3243
- -->
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Customer Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-.app{background:#f8f7f5;padding:16px;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;color:#1a1916;min-height:100vh;}
-
+body{background:#f8f7f5;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1a1916;min-height:100vh;padding:16px;}
+ 
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;}
 .header-left{display:flex;align-items:center;gap:10px;}
 .hicon{width:36px;height:36px;background:#1a56db;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .hicon svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.htitle{font-size:clamp(13px,2.5vw,15px);font-weight:600;color:#1a1916;letter-spacing:-0.01em;}
-.hsub{font-size:clamp(10px,1.8vw,11px);color:#8a8880;font-family:'Courier New',monospace;}
+.htitle{font-size:clamp(13px,2.5vw,15px);font-weight:700;color:#1a1916;letter-spacing:-0.01em;}
+.hsub{font-size:clamp(10px,1.8vw,11px);color:#8a8880;font-family:'JetBrains Mono',monospace;}
 .live-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;background:#edfaf3;border:1px solid rgba(14,122,78,0.25);border-radius:20px;font-size:11px;font-weight:600;color:#0e7a4e;white-space:nowrap;}
 .ldot{width:6px;height:6px;border-radius:50%;background:#0e7a4e;animation:pulse 2s infinite;}
-
-.main-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start;}
-
+.size-hint{display:flex;align-items:center;gap:5px;padding:4px 10px;background:#fff;border:1px solid rgba(0,0,0,0.08);border-radius:20px;font-size:11px;color:#8a8880;}
+.size-hint svg{width:12px;height:12px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#size-label{font-family:'JetBrains Mono',monospace;color:#1a56db;font-weight:600;}
+ 
+/* Search bar */
+.search-wrap{position:relative;margin-bottom:16px;}
+.search-wrap svg.s-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+.search-input{width:100%;padding:10px 40px 10px 38px;border-radius:10px;border:1px solid rgba(0,0,0,0.1);background:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;color:#1a1916;outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+.search-input:focus{border-color:#1a56db;box-shadow:0 0 0 3px rgba(26,86,219,0.08);}
+.search-input::placeholder{color:#b8b6b2;}
+.search-clear{position:absolute;right:11px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:#e8e7e2;border:none;cursor:pointer;display:none;align-items:center;justify-content:center;}
+.search-clear svg{width:10px;height:10px;stroke:#5f5e5a;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.search-clear.visible{display:flex;}
+.search-results{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid rgba(0,0,0,0.1);border-radius:10px;z-index:50;overflow:hidden;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.08);}
+.search-results.open{display:block;}
+.search-results-head{padding:8px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8880;background:#f8f7f5;border-bottom:1px solid rgba(0,0,0,0.06);}
+.sr-item{display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,0.05);transition:background 0.1s;}
+.sr-item:last-child{border-bottom:none;}
+.sr-item:hover{background:#f5f4f0;}
+.sr-item-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sr-item-icon svg{width:12px;height:12px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.sri-case{background:#eef3fd;} .sri-case svg{stroke:#1a56db;}
+.sri-cust{background:#edfaf3;} .sri-cust svg{stroke:#0e7a4e;}
+.sr-item-main{flex:1;min-width:0;}
+.sr-item-title{font-size:13px;font-weight:600;color:#1a1916;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sr-item-sub{font-size:11px;color:#8a8880;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sr-item-badge{flex-shrink:0;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;}
+.srb-open{background:#edfaf3;color:#0e7a4e;}
+.srb-prog{background:#eef3fd;color:#1a56db;}
+.srb-closed{background:#f5f4f0;color:#5f5e5a;}
+.sr-empty{padding:20px;text-align:center;font-size:13px;color:#8a8880;}
+.sr-footer{padding:8px 12px;border-top:1px solid rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:space-between;font-size:11px;color:#8a8880;background:#f8f7f5;}
+.sr-footer span{font-family:'JetBrains Mono',monospace;color:#1a56db;font-weight:600;}
+.sr-footer-hint{font-size:10px;color:#b8b6b2;}
+ 
+.main-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:start;margin-bottom:14px;}
 .card{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;}
 .card-head{padding:13px 15px 0;display:flex;align-items:center;justify-content:space-between;}
 .card-icon-row{display:flex;align-items:center;gap:8px;}
@@ -25,61 +61,98 @@
 .ci-blue{background:#eef3fd;} .ci-blue svg{stroke:#1a56db;}
 .ci-purple{background:#EEEDFE;} .ci-purple svg{stroke:#534AB7;}
 .ci-teal{background:#E1F5EE;} .ci-teal svg{stroke:#0F6E56;}
+.ci-coral{background:#FAECE7;} .ci-coral svg{stroke:#993C1D;}
 .ctitle{font-size:clamp(11px,2vw,13px);font-weight:600;color:#1a1916;}
-
 .card-body{padding:12px 15px 15px;}
-
-.refresh-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(0,0,0,0.1);background:#f5f4f0;color:#5f5e5a;white-space:nowrap;}
+.refresh-btn{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(0,0,0,0.1);background:#f5f4f0;color:#5f5e5a;white-space:nowrap;font-family:'Plus Jakarta Sans',sans-serif;}
 .refresh-btn:hover{background:#e8e7e2;}
 .refresh-btn:active{transform:scale(0.97);}
 .refresh-btn svg{width:11px;height:11px;stroke:#5f5e5a;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-
 .fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:9px;}
 .field{display:flex;flex-direction:column;gap:4px;}
 .flbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8880;}
-.finput{width:100%;padding:7px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#f8f7f5;font-family:'Courier New',monospace;font-size:clamp(11px,1.8vw,12px);color:#1a1916;outline:none;transition:border-color 0.15s,background 0.15s;}
+.finput{width:100%;padding:7px 10px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#f8f7f5;font-family:'JetBrains Mono',monospace;font-size:clamp(11px,1.8vw,12px);color:#1a1916;outline:none;transition:border-color 0.15s,background 0.15s;}
 .finput:focus{border-color:#1a56db;background:#fff;box-shadow:0 0 0 3px rgba(26,86,219,0.08);}
 .finput::placeholder{color:#b8b6b2;}
-.finput.sans{font-family:'Segoe UI',sans-serif;}
-
+.finput.sans{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;}
 .abtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:9px;}
-.abtn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;text-align:left;transition:transform 0.1s,background 0.15s;}
+.abtn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid transparent;text-align:left;transition:transform 0.1s,background 0.15s;font-family:'Plus Jakarta Sans',sans-serif;}
 .abtn:active{transform:scale(0.97);}
 .abtn-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .abtn-ico svg{width:13px;height:13px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .abtn-lbl{font-size:clamp(11px,1.8vw,12px);font-weight:600;display:block;letter-spacing:-0.005em;}
 .abtn-sub{font-size:10px;font-weight:500;opacity:0.6;display:block;margin-top:1px;}
-
 .ab-blue{background:#eef3fd;border-color:rgba(26,86,219,0.18);color:#0c447c;}
-.ab-blue .abtn-ico{background:rgba(26,86,219,0.12);} .ab-blue .abtn-ico svg{stroke:#1a56db;}
-.ab-blue:hover{background:#dce8fc;}
+.ab-blue .abtn-ico{background:rgba(26,86,219,0.12);} .ab-blue .abtn-ico svg{stroke:#1a56db;} .ab-blue:hover{background:#dce8fc;}
 .ab-green{background:#edfaf3;border-color:rgba(14,122,78,0.18);color:#085041;}
-.ab-green .abtn-ico{background:rgba(14,122,78,0.12);} .ab-green .abtn-ico svg{stroke:#0e7a4e;}
-.ab-green:hover{background:#d5f5e8;}
+.ab-green .abtn-ico{background:rgba(14,122,78,0.12);} .ab-green .abtn-ico svg{stroke:#0e7a4e;} .ab-green:hover{background:#d5f5e8;}
 .ab-teal{background:#E1F5EE;border-color:rgba(15,110,86,0.2);color:#085041;}
-.ab-teal .abtn-ico{background:rgba(15,110,86,0.12);} .ab-teal .abtn-ico svg{stroke:#0F6E56;}
-.ab-teal:hover{background:#c5eedd;}
+.ab-teal .abtn-ico{background:rgba(15,110,86,0.12);} .ab-teal .abtn-ico svg{stroke:#0F6E56;} .ab-teal:hover{background:#c5eedd;}
 .ab-amber{background:#FAEEDA;border-color:rgba(180,83,9,0.2);color:#633806;}
-.ab-amber .abtn-ico{background:rgba(180,83,9,0.1);} .ab-amber .abtn-ico svg{stroke:#854F0B;}
-.ab-amber:hover{background:#f5e0bb;}
-
-.toast{border-radius:10px;padding:10px 14px;font-size:clamp(11px,1.8vw,12px);font-family:'Courier New',monospace;color:#8a8880;background:#f5f4f0;border:1px solid rgba(0,0,0,0.07);text-align:center;margin-top:14px;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.ab-amber .abtn-ico{background:rgba(180,83,9,0.1);} .ab-amber .abtn-ico svg{stroke:#854F0B;} .ab-amber:hover{background:#f5e0bb;}
+ 
+/* Table */
+.table-card{background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,0.07);overflow:hidden;margin-bottom:14px;}
+.table-head{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.06);flex-wrap:wrap;gap:8px;}
+.table-head-left{display:flex;align-items:center;gap:8px;}
+.tcount{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 7px;background:#eef3fd;border:1px solid rgba(26,86,219,0.2);border-radius:20px;font-size:11px;font-weight:700;color:#1a56db;}
+.fetch-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(26,86,219,0.3);background:#eef3fd;color:#0c447c;font-family:'Plus Jakarta Sans',sans-serif;transition:background 0.15s;}
+.fetch-btn:hover{background:#dce8fc;}
+.fetch-btn:active{transform:scale(0.97);}
+.fetch-btn:disabled{opacity:0.6;cursor:not-allowed;}
+.fetch-btn svg{width:13px;height:13px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.tbl-search-wrap{position:relative;flex:1;min-width:140px;max-width:260px;}
+.tbl-search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+.tbl-search{width:100%;padding:6px 10px 6px 30px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#f8f7f5;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#1a1916;outline:none;transition:border-color 0.15s;}
+.tbl-search:focus{border-color:#1a56db;background:#fff;}
+.tbl-search::placeholder{color:#b8b6b2;}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:580px;}
+thead tr{background:#f8f7f5;}
+thead th{padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a8880;white-space:nowrap;border-bottom:1px solid rgba(0,0,0,0.07);cursor:pointer;user-select:none;}
+thead th:hover{color:#1a1916;}
+thead th .sort-arrow{margin-left:4px;opacity:0.4;font-size:9px;}
+thead th.sorted .sort-arrow{opacity:1;color:#1a56db;}
+tbody tr{border-bottom:1px solid rgba(0,0,0,0.05);cursor:pointer;transition:background 0.1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover{background:#f8f7f5;}
+tbody td{padding:10px 14px;vertical-align:middle;}
+td.mono{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5f5e5a;}
+td.subject-cell{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.b-open{background:#edfaf3;color:#0e7a4e;border:1px solid rgba(14,122,78,0.2);}
+.b-prog{background:#eef3fd;color:#1a56db;border:1px solid rgba(26,86,219,0.2);}
+.b-closed{background:#f5f4f0;color:#5f5e5a;border:1px solid rgba(0,0,0,0.1);}
+.pri-h{color:#b91c1c;font-weight:700;font-size:12px;}
+.pri-m{color:#b45309;font-weight:600;font-size:12px;}
+.pri-l{color:#0e7a4e;font-weight:600;font-size:12px;}
+.row-btn{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid rgba(0,0,0,0.1);background:#f5f4f0;color:#1a1916;margin-right:4px;font-family:'Plus Jakarta Sans',sans-serif;white-space:nowrap;}
+.row-btn:hover{background:#e8e7e2;}
+.row-btn svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.empty-state{padding:40px 20px;text-align:center;}
+.empty-icon{width:44px;height:44px;background:#f5f4f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.empty-icon svg{width:20px;height:20px;stroke:#8a8880;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+.empty-title{font-size:14px;font-weight:600;color:#1a1916;margin-bottom:4px;}
+.empty-sub{font-size:12px;color:#8a8880;}
+.sk-row td div{height:13px;border-radius:4px;background:#f0efe9;animation:shimmer 1.4s infinite;}
+.highlight{background:#fff9c2;}
+ 
+.toast{border-radius:10px;padding:10px 14px;font-size:clamp(11px,1.8vw,12px);font-family:'JetBrains Mono',monospace;color:#8a8880;background:#f5f4f0;border:1px solid rgba(0,0,0,0.07);text-align:center;margin-top:0;transition:all 0.25s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .tdot{width:7px;height:7px;border-radius:50%;background:#b8b6b2;flex-shrink:0;}
-.toast.ok{background:#edfaf3;border-color:rgba(14,122,78,0.25);color:#0e7a4e;}
-.toast.ok .tdot{background:#0e7a4e;}
-.toast.warn{background:#fff8ed;border-color:rgba(180,83,9,0.25);color:#b45309;}
-.toast.warn .tdot{background:#b45309;}
-
-.size-hint{display:flex;align-items:center;justify-content:center;gap:6px;padding:6px 12px;background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:20px;font-size:11px;color:#8a8880;margin-bottom:14px;width:fit-content;}
-.size-hint svg{width:12px;height:12px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-#size-label{font-family:'Courier New',monospace;font-size:11px;color:#1a56db;font-weight:600;}
-
+.toast.ok{background:#edfaf3;border-color:rgba(14,122,78,0.25);color:#0e7a4e;} .toast.ok .tdot{background:#0e7a4e;}
+.toast.warn{background:#fff8ed;border-color:rgba(180,83,9,0.25);color:#b45309;} .toast.warn .tdot{background:#b45309;}
+ 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media(max-width:560px){.main-grid{grid-template-columns:1fr;} .tbl-search-wrap{max-width:100%;width:100%;}}
 </style>
-
-<div class="app" id="app">
-<h2 class="sr-only">Responsive customer portal with auto-adapting layout</h2>
-
+</head>
+<body>
+ 
+<div id="app">
+ 
 <div class="header">
   <div class="header-left">
     <div class="hicon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
@@ -96,9 +169,16 @@
     <div class="live-pill"><div class="ldot"></div>Live</div>
   </div>
 </div>
-
+ 
+<!-- Global Search Bar -->
+<div class="search-wrap" id="search-wrap">
+  <svg class="s-icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  <input class="search-input" type="text" id="global-search" placeholder="Search cases, customers, UUIDs…" autocomplete="off" oninput="onSearchInput(this.value)" onfocus="showResults()" />
+  <button class="search-clear" id="search-clear" onclick="clearSearch()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div class="search-results" id="search-results"></div>
+</div>
+ 
 <div class="main-grid" id="main-grid">
-
   <div class="card">
     <div class="card-head">
       <div class="card-icon-row">
@@ -112,28 +192,15 @@
     </div>
     <div class="card-body">
       <div class="fields">
-        <div class="field">
-          <span class="flbl">Customer ID</span>
-          <input class="finput" type="text" id="i-customer_id" readonly placeholder="—">
-        </div>
-        <div class="field">
-          <span class="flbl">Name</span>
-          <input class="finput sans" type="text" id="i-customer_name" readonly placeholder="—">
-        </div>
-        <div class="field">
-          <span class="flbl">UUID</span>
-          <input class="finput" type="text" id="i-uuid" readonly placeholder="—">
-        </div>
-        <div class="field">
-          <span class="flbl">Sex</span>
-          <input class="finput sans" type="text" id="i-sex" readonly placeholder="—">
-        </div>
+        <div class="field"><span class="flbl">Customer ID</span><input class="finput" type="text" id="i-customer_id" readonly placeholder="—"></div>
+        <div class="field"><span class="flbl">Name</span><input class="finput sans" type="text" id="i-customer_name" readonly placeholder="—"></div>
+        <div class="field"><span class="flbl">UUID</span><input class="finput" type="text" id="i-uuid" readonly placeholder="—"></div>
+        <div class="field"><span class="flbl">Sex</span><input class="finput sans" type="text" id="i-sex" readonly placeholder="—"></div>
       </div>
     </div>
   </div>
-
+ 
   <div style="display:flex;flex-direction:column;gap:14px;">
-
     <div class="card">
       <div class="card-head">
         <div class="card-icon-row">
@@ -154,7 +221,7 @@
         </div>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="card-head">
         <div class="card-icon-row">
@@ -164,14 +231,8 @@
       </div>
       <div class="card-body">
         <div class="fields" style="margin-bottom:12px;">
-          <div class="field">
-            <span class="flbl">Case ID</span>
-            <input class="finput" type="text" id="i-case_id" placeholder="e.g. CASE-20481">
-          </div>
-          <div class="field">
-            <span class="flbl">Case UUID</span>
-            <input class="finput" type="text" id="i-case_uuid" value="0329dfe5-74af-11f0-8699-d9e094fa55ba">
-          </div>
+          <div class="field"><span class="flbl">Case ID</span><input class="finput" type="text" id="i-case_id" placeholder="e.g. CASE-20481"></div>
+          <div class="field"><span class="flbl">Case UUID</span><input class="finput" type="text" id="i-case_uuid" value="0329dfe5-74af-11f0-8699-d9e094fa55ba"></div>
         </div>
         <div class="abtns">
           <button class="abtn ab-teal" onclick="openquickview()">
@@ -185,15 +246,249 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
-<div class="toast" id="toast"><div class="tdot"></div><span id="tmsg">Load a page with URL parameters to populate customer details</span></div>
-
+ 
+<!-- Related Cases Table -->
+<div class="table-card">
+  <div class="table-head">
+    <div class="table-head-left">
+      <div class="cicon ci-coral"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+      <span class="ctitle">Related cases</span>
+      <span class="tcount" id="case-count">0</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div class="tbl-search-wrap">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="tbl-search" type="text" id="tbl-search" placeholder="Filter by ID, subject, owner…" oninput="filterTable(this.value)"/>
+      </div>
+      <button class="fetch-btn" id="fetch-btn" onclick="fetchCases()">
+        <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg>
+        Fetch cases
+      </button>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <thead>
+        <tr>
+          <th onclick="sortTable('id')">Case ID <span class="sort-arrow" id="sort-id">↕</span></th>
+          <th onclick="sortTable('subject')">Subject <span class="sort-arrow" id="sort-subject">↕</span></th>
+          <th onclick="sortTable('status')">Status <span class="sort-arrow" id="sort-status">↕</span></th>
+          <th onclick="sortTable('priority')">Priority <span class="sort-arrow" id="sort-priority">↕</span></th>
+          <th onclick="sortTable('created')">Created <span class="sort-arrow" id="sort-created">↕</span></th>
+          <th onclick="sortTable('owner')">Owner <span class="sort-arrow" id="sort-owner">↕</span></th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="case-tbody">
+        <tr><td colspan="7">
+          <div class="empty-state">
+            <div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+            <div class="empty-title">No cases loaded</div>
+            <div class="empty-sub">Click "Fetch cases" to load related cases</div>
+          </div>
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-
+ 
+<div class="toast" id="toast"><div class="tdot"></div><span id="tmsg">Load a page with URL parameters to populate customer details</span></div>
+ 
+</div>
+ 
 <script>
+var ALL_CASES=[
+  {id:'CASE-10021',uuid:'a1b2c3d4-0001-0000-0000-000000000001',subject:'Payment gateway timeout on checkout',status:'Open',priority:'High',created:'12 Apr 2025',owner:'Sarah K.'},
+  {id:'CASE-10034',uuid:'a1b2c3d4-0001-0000-0000-000000000002',subject:'Login fails after password reset',status:'In Progress',priority:'Medium',created:'10 Apr 2025',owner:'James R.'},
+  {id:'CASE-10047',uuid:'a1b2c3d4-0001-0000-0000-000000000003',subject:'Invoice PDF not generating correctly',status:'Open',priority:'Low',created:'08 Apr 2025',owner:'Priya M.'},
+  {id:'CASE-10058',uuid:'a1b2c3d4-0001-0000-0000-000000000004',subject:'2FA SMS not delivered to user',status:'Closed',priority:'High',created:'05 Apr 2025',owner:'Chen W.'},
+  {id:'CASE-10062',uuid:'a1b2c3d4-0001-0000-0000-000000000005',subject:'Data export stuck at 0% progress',status:'In Progress',priority:'Medium',created:'03 Apr 2025',owner:'Sarah K.'},
+  {id:'CASE-10071',uuid:'a1b2c3d4-0001-0000-0000-000000000006',subject:'API rate limit exceeded unexpectedly',status:'Closed',priority:'Low',created:'01 Apr 2025',owner:'James R.'},
+];
+var casesLoaded=false;
+var sortCol='';
+var sortAsc=true;
+ 
+/* ── Global search ── */
+var SEARCH_DATA=[
+  {type:'case',title:'CASE-10021',sub:'Payment gateway timeout on checkout',uuid:'a1b2c3d4-0001-0000-0000-000000000001',status:'Open'},
+  {type:'case',title:'CASE-10034',sub:'Login fails after password reset',uuid:'a1b2c3d4-0001-0000-0000-000000000002',status:'In Progress'},
+  {type:'case',title:'CASE-10047',sub:'Invoice PDF not generating correctly',uuid:'a1b2c3d4-0001-0000-0000-000000000003',status:'Open'},
+  {type:'case',title:'CASE-10058',sub:'2FA SMS not delivered to user',uuid:'a1b2c3d4-0001-0000-0000-000000000004',status:'Closed'},
+  {type:'case',title:'CASE-10062',sub:'Data export stuck at 0% progress',uuid:'a1b2c3d4-0001-0000-0000-000000000005',status:'In Progress'},
+  {type:'case',title:'CASE-10071',sub:'API rate limit exceeded unexpectedly',uuid:'a1b2c3d4-0001-0000-0000-000000000006',status:'Closed'},
+  {type:'customer',title:'John Appleseed',sub:'CUST-0012 · Premium',uuid:'cust-uuid-0012',status:''},
+  {type:'customer',title:'Priya Mehta',sub:'CUST-0034 · Enterprise',uuid:'cust-uuid-0034',status:''},
+];
+ 
+function statusBadge(s){
+  if(s==='Open') return '<span class="badge b-open"><span class="badge-dot"></span>Open</span>';
+  if(s==='In Progress') return '<span class="badge b-prog"><span class="badge-dot"></span>In progress</span>';
+  return '<span class="badge b-closed"><span class="badge-dot"></span>Closed</span>';
+}
+function statusBadgeSm(s){
+  if(s==='Open') return '<span class="srb-open" style="padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;">Open</span>';
+  if(s==='In Progress') return '<span class="srb-prog" style="padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;">In progress</span>';
+  if(!s) return '';
+  return '<span style="padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;background:#f5f4f0;color:#5f5e5a;">Closed</span>';
+}
+function priorityCell(p){
+  if(p==='High') return '<span class="pri-h">&#9650; High</span>';
+  if(p==='Medium') return '<span class="pri-m">&#9654; Medium</span>';
+  return '<span class="pri-l">&#9660; Low</span>';
+}
+function hl(text, q){
+  if(!q) return text;
+  var re=new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return text.replace(re,'<mark class="highlight">$1</mark>');
+}
+ 
+/* Global search logic */
+function onSearchInput(val){
+  document.getElementById('search-clear').classList.toggle('visible', val.length>0);
+  showResults(val);
+}
+function showResults(val){
+  val = val !== undefined ? val : document.getElementById('global-search').value;
+  var box = document.getElementById('search-results');
+  if(!val || val.trim().length < 1){ box.classList.remove('open'); return; }
+  var q = val.trim().toLowerCase();
+  var matches = SEARCH_DATA.filter(function(d){
+    return d.title.toLowerCase().indexOf(q)>-1 || d.sub.toLowerCase().indexOf(q)>-1 || d.uuid.toLowerCase().indexOf(q)>-1;
+  });
+  if(matches.length===0){
+    box.innerHTML='<div class="sr-empty">No results for "'+val+'"</div>';
+    box.classList.add('open');
+    return;
+  }
+  var html='<div class="search-results-head">Results</div>';
+  matches.slice(0,6).forEach(function(d){
+    var ico = d.type==='case'
+      ? '<div class="sr-item-icon sri-case"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'
+      : '<div class="sr-item-icon sri-cust"><svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:#0e7a4e;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
+    html+='<div class="sr-item" onclick="selectResult(\''+d.uuid+'\',\''+d.type+'\')">'
+      +ico
+      +'<div class="sr-item-main"><div class="sr-item-title">'+hl(d.title,val)+'</div><div class="sr-item-sub">'+hl(d.sub,val)+'</div></div>'
+      +(d.status ? statusBadgeSm(d.status) : '')
+      +'</div>';
+  });
+  var more = matches.length > 6 ? matches.length-6 : 0;
+  html+='<div class="sr-footer"><span>'+matches.length+' result'+(matches.length!==1?'s':'')+'</span>'+(more?'<span class="sr-footer-hint">+'+more+' more — refine search</span>':'')+'</div>';
+  box.innerHTML=html;
+  box.classList.add('open');
+}
+function selectResult(uuid, type){
+  if(type==='case'){
+    document.getElementById('i-case_uuid').value=uuid;
+    setToast('UUID set from search — '+uuid,'ok');
+  } else {
+    setToast('Customer selected — UUID: '+uuid,'ok');
+  }
+  closeSearch();
+}
+function clearSearch(){
+  document.getElementById('global-search').value='';
+  document.getElementById('search-clear').classList.remove('visible');
+  closeSearch();
+}
+function closeSearch(){
+  document.getElementById('search-results').classList.remove('open');
+}
+document.addEventListener('click', function(e){
+  if(!document.getElementById('search-wrap').contains(e.target)) closeSearch();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key==='Escape') closeSearch();
+});
+ 
+/* Table filter & sort */
+function filterTable(q){
+  if(!casesLoaded) return;
+  var filtered = q.trim()==='' ? ALL_CASES : ALL_CASES.filter(function(c){
+    var s=q.toLowerCase();
+    return c.id.toLowerCase().indexOf(s)>-1 || c.subject.toLowerCase().indexOf(s)>-1 || c.owner.toLowerCase().indexOf(s)>-1 || c.status.toLowerCase().indexOf(s)>-1 || c.priority.toLowerCase().indexOf(s)>-1;
+  });
+  renderRows(filtered, q);
+  document.getElementById('case-count').textContent=filtered.length;
+}
+ 
+function sortTable(col){
+  if(sortCol===col) sortAsc=!sortAsc; else { sortCol=col; sortAsc=true; }
+  ['id','subject','status','priority','created','owner'].forEach(function(c){
+    var el=document.getElementById('sort-'+c);
+    if(el){ el.textContent='↕'; el.parentElement.classList.remove('sorted'); }
+  });
+  var arrowEl=document.getElementById('sort-'+col);
+  if(arrowEl){ arrowEl.textContent=sortAsc?'↑':'↓'; arrowEl.parentElement.classList.add('sorted'); }
+  var q=document.getElementById('tbl-search').value;
+  var data=q.trim()==='' ? ALL_CASES.slice() : ALL_CASES.filter(function(c){
+    var s=q.toLowerCase();
+    return c.id.toLowerCase().indexOf(s)>-1||c.subject.toLowerCase().indexOf(s)>-1||c.owner.toLowerCase().indexOf(s)>-1||c.status.toLowerCase().indexOf(s)>-1||c.priority.toLowerCase().indexOf(s)>-1;
+  });
+  var prioOrder={High:1,Medium:2,Low:3};
+  data.sort(function(a,b){
+    var av=col==='priority'?prioOrder[a.priority]:a[col];
+    var bv=col==='priority'?prioOrder[b.priority]:b[col];
+    if(av<bv) return sortAsc?-1:1;
+    if(av>bv) return sortAsc?1:-1;
+    return 0;
+  });
+  renderRows(data, q);
+}
+ 
+function renderRows(data, q){
+  var tbody=document.getElementById('case-tbody');
+  if(data.length===0){
+    tbody.innerHTML='<tr><td colspan="7"><div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div class="empty-title">No matches found</div><div class="empty-sub">Try a different search term</div></div></td></tr>';
+    return;
+  }
+  var rows='';
+  data.forEach(function(c){
+    var sid=q?hl(c.id,q):c.id;
+    var ssub=q?hl(c.subject,q):c.subject;
+    var sown=q?hl(c.owner,q):c.owner;
+    rows+='<tr onclick="rowClick(\''+c.uuid+'\')" title="Click to use this UUID in lookup">'
+      +'<td class="mono">'+sid+'</td>'
+      +'<td class="subject-cell" title="'+c.subject+'">'+ssub+'</td>'
+      +'<td>'+statusBadge(c.status)+'</td>'
+      +'<td>'+priorityCell(c.priority)+'</td>'
+      +'<td class="mono">'+c.created+'</td>'
+      +'<td>'+sown+'</td>'
+      +'<td><button class="row-btn" onclick="event.stopPropagation();qv(\''+c.uuid+'\')" ><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>View</button>'
+      +'<button class="row-btn" onclick="event.stopPropagation();det(\''+c.uuid+'\')"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Details</button>'
+      +'</td></tr>';
+  });
+  tbody.innerHTML=rows;
+}
+ 
+function skeletonRows(){
+  var h='';
+  for(var i=0;i<5;i++) h+='<tr class="sk-row"><td><div style="width:80px"></div></td><td><div style="width:160px"></div></td><td><div style="width:65px"></div></td><td><div style="width:55px"></div></td><td><div style="width:75px"></div></td><td><div style="width:65px"></div></td><td><div style="width:110px"></div></td></tr>';
+  return h;
+}
+ 
+function fetchCases(){
+  var btn=document.getElementById('fetch-btn');
+  var tbody=document.getElementById('case-tbody');
+  btn.disabled=true;
+  btn.innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;animation:spin 0.9s linear infinite"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Fetching…';
+  tbody.innerHTML=skeletonRows();
+  setTimeout(function(){
+    casesLoaded=true;
+    renderRows(ALL_CASES,'');
+    document.getElementById('case-count').textContent=ALL_CASES.length;
+    btn.disabled=false;
+    btn.innerHTML='<svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/></svg> Refresh';
+    setToast(ALL_CASES.length+' related cases loaded','ok');
+  },1400);
+}
+ 
+function rowClick(uuid){ document.getElementById('i-case_uuid').value=uuid; setToast('UUID set — '+uuid,'ok'); }
+function qv(uuid){ self.window.parent.postMessage({operation:'navigation',params:{objectKey:uuid,routingKey:'case',viewType:'quickview'}},'*'); setToast('Opening quick view for '+uuid,'ok'); }
+function det(uuid){ self.window.parent.postMessage({operation:'navigation',params:{objectKey:uuid,routingKey:'case',viewType:'details'}},'*'); setToast('Opening details for '+uuid,'ok'); }
+ 
 function getUrlParams(){
   var p=new URLSearchParams(window.location.search);
   var id=p.get('urlp_custid'),nm=p.get('urlp_custname'),uu=p.get('urlp_uuid'),sx=p.get('urlp_sex');
@@ -201,58 +496,31 @@ function getUrlParams(){
   document.getElementById('i-customer_name').value=nm||'';
   document.getElementById('i-uuid').value=uu||'';
   document.getElementById('i-sex').value=sx||'';
-  if(id||nm) setToast('Customer data loaded successfully','ok');
+  if(id||nm) setToast('Customer data loaded','ok');
 }
-
 function refreshcustomer(){
   getUrlParams();
   window.parent.postMessage({event:'accountRefreshEvent',operation:'triggerCustomAction'},'*');
   setToast('Refreshed successfully','ok');
 }
-
 function setToast(msg,type){
   document.getElementById('tmsg').textContent=msg;
   document.getElementById('toast').className='toast'+(type?' '+type:'');
 }
-
-function openNewCnsCaseList(){
-  window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'list'}},'*');
-  setToast('Navigating to case list…','');
-}
-
-function openNewCnsCaseCreate(){
-  self.window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}},'*');
-  setToast('Opening quick case create…','');
-}
-
-function openquickview(){
-  var k=document.getElementById('i-case_uuid').value.trim();
-  if(!k){setToast('Enter a Case UUID first','warn');return;}
-  self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'quickview'}},'*');
-  setToast('Opening quick view for '+k,'ok');
-}
-
-function opencasedetails(){
-  var k=document.getElementById('i-case_uuid').value.trim();
-  if(!k){setToast('Enter a Case UUID first','warn');return;}
-  self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'details'}},'*');
-  setToast('Opening case details for '+k,'ok');
-}
-
-function updateSizeLabel(){
+function openNewCnsCaseList(){ window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'list'}},'*'); setToast('Navigating to case list…',''); }
+function openNewCnsCaseCreate(){ self.window.parent.postMessage({operation:'navigation',params:{routingKey:'case',viewType:'quickcreate'}},'*'); setToast('Opening quick case create…',''); }
+function openquickview(){ var k=document.getElementById('i-case_uuid').value.trim(); if(!k){setToast('Enter a Case UUID first','warn');return;} self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'quickview'}},'*'); setToast('Opening quick view for '+k,'ok'); }
+function opencasedetails(){ var k=document.getElementById('i-case_uuid').value.trim(); if(!k){setToast('Enter a Case UUID first','warn');return;} self.window.parent.postMessage({operation:'navigation',params:{objectKey:k,routingKey:'case',viewType:'details'}},'*'); setToast('Opening case details for '+k,'ok'); }
+ 
+function updateSize(){
   var w=document.getElementById('app').offsetWidth;
   document.getElementById('size-label').textContent=w+'px';
-  var grid=document.getElementById('main-grid');
-  if(w<480){
-    grid.style.gridTemplateColumns='1fr';
-  } else if(w<720){
-    grid.style.gridTemplateColumns='1fr';
-  } else {
-    grid.style.gridTemplateColumns='repeat(auto-fit,minmax(260px,1fr))';
-  }
+  var g=document.getElementById('main-grid');
+  g.style.gridTemplateColumns=w<600?'1fr':'repeat(auto-fit,minmax(260px,1fr))';
 }
-
-var ro=new ResizeObserver(updateSizeLabel);
+var ro=new ResizeObserver(updateSize);
 ro.observe(document.getElementById('app'));
-window.onload=function(){getUrlParams();updateSizeLabel();};
+window.onload=function(){getUrlParams();updateSize();};
 </script>
+</body>
+</html>
