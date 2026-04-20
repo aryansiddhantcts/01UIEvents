@@ -1,0 +1,780 @@
+<!-- ?caseid=CASE-0321&caseuuid=a3f1b2c4-9e12f-0c1d2e3f4a5b
+ &personid=PE92&personuuid=34
+ &orguuid=344&orgid=ORG-551
+ &premiseid=PR7743&caid=345454
+ https://ui-events-app.cfapps.us10-001.hana.ondemand.com/bpem.html#?caseid=CASE-0321&caseuuid=a3f1b2c4-9e12f-0c1d2e3f4a5b&personid=PE92&personuuid=34&orguuid=344&orgid=ORG-551&premiseid=PR7743&caid=345454
+ -->
+ 
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f8f7f5;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:#1a1916;min-height:100vh;padding:14px;}
+.header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;}
+.header-left{display:flex;align-items:center;gap:10px;}
+.hicon{width:36px;height:36px;background:#1a56db;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.hicon svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.htitle{font-size:15px;font-weight:700;color:#1a1916;letter-spacing:-0.01em;}
+.hsub{font-size:11px;color:#8a8880;font-family:'JetBrains Mono',monospace;}
+.live-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;background:#edfaf3;border:1px solid rgba(14,122,78,0.25);border-radius:20px;font-size:11px;font-weight:600;color:#0e7a4e;}
+.ldot{width:6px;height:6px;border-radius:50%;background:#0e7a4e;animation:pulse 2s infinite;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;border:1px solid rgba(0,0,0,0.1);background:#f5f4f0;color:#5f5e5a;font-family:'Plus Jakarta Sans',sans-serif;transition:background .15s,transform .1s;white-space:nowrap;}
+.btn:hover{background:#e8e7e2;}
+.btn:active{transform:scale(.97);}
+.btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.btn-blue{background:#eef3fd;border-color:rgba(26,86,219,0.25);color:#0c447c;}
+.btn-blue:hover{background:#dce8fc;}
+.btn-blue svg{stroke:#1a56db;}
+.btn-solid{background:#1a56db;border-color:#1a56db;color:#fff;}
+.btn-solid:hover{background:#0c447c;}
+.btn-solid svg{stroke:#fff;}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px;}
+.stat-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:14px 15px;}
+.stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a8880;}
+.stat-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.stat-ico svg{width:12px;height:12px;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.si-blue{background:#eef3fd;} .si-blue svg{stroke:#1a56db;}
+.si-red{background:#FEE2E2;} .si-red svg{stroke:#b91c1c;}
+.si-amber{background:#FEF3C7;} .si-amber svg{stroke:#b45309;}
+.si-green{background:#edfaf3;} .si-green svg{stroke:#0e7a4e;}
+.stat-val{font-size:28px;font-weight:700;color:#1a1916;letter-spacing:-0.02em;line-height:1;}
+.stat-val.red{color:#b91c1c;} .stat-val.amber{color:#b45309;} .stat-val.green{color:#0e7a4e;}
+.stat-bar{height:3px;border-radius:2px;background:#f0efe9;margin-top:10px;overflow:hidden;}
+.stat-bar-fill{height:100%;border-radius:2px;transition:width .7s ease;}
+ 
+/* ── URL PARAMS CARD ─────────────────────────────────────────── */
+.url-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+ 
+.url-card-head{
+  padding:10px 15px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  background:#f8f7f5;
+  border-bottom:1px solid transparent;
+  transition:border-color .2s;
+}
+.url-card-head.expanded{border-bottom-color:rgba(0,0,0,.06);}
+ 
+.url-head-left{display:flex;align-items:center;gap:8px;}
+.url-ico{width:26px;height:26px;border-radius:7px;background:#eef3fd;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.url-ico svg{width:12px;height:12px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.url-card-title{font-size:13px;font-weight:700;color:#1a1916;}
+ 
+.url-head-right{display:flex;align-items:center;gap:10px;}
+.url-badge-count{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:22px;height:22px;padding:0 7px;
+  background:#eef3fd;border:1px solid rgba(26,86,219,0.2);border-radius:20px;
+  font-size:11px;font-weight:700;color:#1a56db;font-family:'JetBrains Mono',monospace;
+}
+.url-badge-count.zero{background:#f5f4f0;border-color:rgba(0,0,0,.08);color:#8a8880;}
+ 
+/* ── Toggle switch ── */
+.tog-wrap{
+  display:flex;align-items:center;gap:7px;
+  cursor:pointer;user-select:none;
+  padding:3px 0;
+}
+.tog-lbl{font-size:11px;font-weight:600;color:#8a8880;transition:color .2s;white-space:nowrap;}
+.tog-lbl.on{color:#0c447c;}
+ 
+.tog{
+  position:relative;
+  width:36px;height:20px;
+  flex-shrink:0;
+}
+.tog input{
+  position:absolute;opacity:0;width:0;height:0;
+  /* prevent input from stealing clicks */
+  pointer-events:none;
+}
+.tog-track{
+  position:absolute;inset:0;
+  border-radius:20px;
+  background:#d0cec9;
+  border:1px solid rgba(0,0,0,.1);
+  transition:background .22s,border-color .22s;
+  cursor:pointer;
+}
+.tog input:checked + .tog-track{
+  background:#1a56db;
+  border-color:#1a56db;
+}
+.tog-thumb{
+  position:absolute;
+  top:3px;left:3px;
+  width:12px;height:12px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.25);
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;
+}
+.tog input:checked ~ .tog-thumb{transform:translateX(16px);}
+ 
+/* ── Collapsible body ── */
+.url-card-body{
+  overflow:hidden;
+  max-height:0;
+  transition:max-height .32s cubic-bezier(.4,0,.2,1);
+}
+.url-card-body.open{max-height:600px;}
+.url-card-body-inner{padding:14px 15px;}
+ 
+.url-params-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;}
+.url-param-item{background:#f8f7f5;border:1px solid rgba(0,0,0,0.07);border-radius:10px;padding:10px 13px;display:flex;flex-direction:column;gap:4px;}
+.url-param-item.present{background:#eef3fd;border-color:rgba(26,86,219,0.18);}
+.url-param-item.absent{opacity:.65;}
+.url-param-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8a8880;display:flex;align-items:center;justify-content:space-between;}
+.url-param-label.present-lbl{color:#0c447c;}
+.url-param-value{font-size:12px;font-weight:600;color:#1a1916;font-family:'JetBrains Mono',monospace;word-break:break-all;}
+.url-param-value.absent-val{color:#b8b6b2;font-weight:400;font-style:italic;font-family:'Plus Jakarta Sans',sans-serif;}
+.url-status-dot{width:6px;height:6px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.url-status-dot.present{background:#1a56db;}
+.url-status-dot.absent{background:#d0cec9;}
+.url-param-key{font-size:9px;color:#b8b6b2;margin-top:2px;font-family:'JetBrains Mono',monospace;}
+.url-none-msg{padding:16px;text-align:center;font-size:12px;color:#8a8880;display:flex;align-items:center;justify-content:center;gap:7px;}
+.url-none-msg svg{width:14px;height:14px;stroke:#b8b6b2;fill:none;stroke-width:1.5;}
+.url-raw-wrap{margin-top:12px;}
+.url-raw-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8a8880;margin-bottom:5px;}
+.url-raw{padding:10px 13px;background:#f8f7f5;border:1px solid rgba(0,0,0,.07);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#5f5e5a;word-break:break-all;line-height:1.6;}
+ 
+/* rest unchanged */
+.toolbar{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+.search-wrap{position:relative;flex:1;min-width:150px;}
+.search-wrap svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:13px;height:13px;stroke:#8a8880;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;}
+.search-input{width:100%;padding:7px 10px 7px 30px;border-radius:8px;border:1px solid rgba(0,0,0,0.1);background:#f8f7f5;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;color:#1a1916;outline:none;transition:border-color .15s,background .15s;}
+.search-input:focus{border-color:#1a56db;background:#fff;box-shadow:0 0 0 3px rgba(26,86,219,0.08);}
+.search-input::placeholder{color:#b8b6b2;}
+.fsel{padding:7px 10px;border:1px solid rgba(0,0,0,0.1);border-radius:8px;font-size:12px;background:#f8f7f5;color:#1a1916;cursor:pointer;outline:none;font-family:'Plus Jakarta Sans',sans-serif;transition:border-color .15s;}
+.fsel:focus{border-color:#1a56db;}
+.rcount{font-size:11px;color:#8a8880;font-family:'JetBrains Mono',monospace;margin-left:auto;white-space:nowrap;}
+.table-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.table-head{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,0.06);flex-wrap:wrap;gap:8px;}
+.table-head-left{display:flex;align-items:center;gap:8px;}
+.th-title{font-size:13px;font-weight:700;color:#1a1916;}
+.tcount{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 7px;background:#eef3fd;border:1px solid rgba(26,86,219,0.2);border-radius:20px;font-size:11px;font-weight:700;color:#1a56db;font-family:'JetBrains Mono',monospace;}
+.pp-wrap{display:flex;align-items:center;gap:5px;font-size:11px;color:#8a8880;}
+.pp-wrap select{padding:4px 6px;font-size:11px;border:1px solid rgba(0,0,0,0.1);border-radius:6px;background:#f8f7f5;color:#1a1916;cursor:pointer;outline:none;font-family:'JetBrains Mono',monospace;}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:620px;}
+thead tr{background:#f8f7f5;}
+thead th{padding:9px 14px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a8880;border-bottom:1px solid rgba(0,0,0,0.07);cursor:pointer;user-select:none;white-space:nowrap;}
+thead th:hover{color:#1a1916;}
+.sort-arr{margin-left:3px;opacity:.35;font-size:9px;}
+.sort-arr.on{opacity:1;color:#1a56db;}
+tbody tr{border-bottom:1px solid rgba(0,0,0,0.05);cursor:pointer;transition:background .1s;}
+tbody tr:last-child{border-bottom:none;}
+tbody tr:hover td{background:#f8f7f5;}
+tbody tr.sel td{background:#eef3fd;}
+tbody tr.sel td:first-child{border-left:3px solid #1a56db;}
+td{padding:10px 14px;vertical-align:middle;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:0;}
+td.desc-td{max-width:200px;}
+td.mono{font-family:'JetBrains Mono',monospace;font-size:11px;color:#5f5e5a;}
+.id-link{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:#1a56db;cursor:pointer;}
+.id-link:hover{text-decoration:underline;}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.badge-dot{width:5px;height:5px;border-radius:50%;}
+.bc{background:#FEE2E2;color:#b91c1c;border:1px solid rgba(185,28,28,.2);}.bc .badge-dot{background:#b91c1c;}
+.bh{background:#FEF3C7;color:#b45309;border:1px solid rgba(180,83,9,.2);}.bh .badge-dot{background:#b45309;}
+.bm{background:#eef3fd;color:#1a56db;border:1px solid rgba(26,86,219,.2);}.bm .badge-dot{background:#1a56db;}
+.bl{background:#edfaf3;color:#0e7a4e;border:1px solid rgba(14,122,78,.2);}.bl .badge-dot{background:#0e7a4e;}
+.bo{background:#FEF3C7;color:#b45309;border:1px solid rgba(180,83,9,.2);}.bo .badge-dot{background:#b45309;}
+.bip{background:#eef3fd;color:#1a56db;border:1px solid rgba(26,86,219,.2);}.bip .badge-dot{background:#1a56db;}
+.br{background:#edfaf3;color:#0e7a4e;border:1px solid rgba(14,122,78,.2);}.br .badge-dot{background:#0e7a4e;}
+.bcl{background:#f5f4f0;color:#5f5e5a;border:1px solid rgba(0,0,0,.1);}.bcl .badge-dot{background:#5f5e5a;}
+.pagbar{padding:10px 15px;border-top:1px solid rgba(0,0,0,.06);background:#f8f7f5;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.pinfo{font-size:11px;color:#8a8880;font-family:'JetBrains Mono',monospace;}
+.pbtns{display:flex;gap:3px;}
+.pb{min-width:28px;height:28px;padding:0 7px;border:1px solid rgba(0,0,0,.1);border-radius:6px;background:#fff;color:#1a1916;cursor:pointer;font-size:11px;font-family:'JetBrains Mono',monospace;display:inline-flex;align-items:center;justify-content:center;transition:background .15s;}
+.pb:hover{background:#f0efe9;}
+.pb.on{background:#1a56db;color:#fff;border-color:#1a56db;}
+.pb:disabled{opacity:.35;cursor:default;pointer-events:none;}
+.ph-row td div{height:12px;border-radius:4px;background:#f0efe9;animation:shimmer 1.4s infinite;}
+.empty-state{padding:40px 20px;text-align:center;}
+.empty-icon{width:44px;height:44px;background:#f5f4f0;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;}
+.empty-icon svg{width:20px;height:20px;stroke:#8a8880;fill:none;stroke-width:1.5;}
+.empty-title{font-size:14px;font-weight:600;margin-bottom:4px;}
+.empty-sub{font-size:12px;color:#8a8880;}
+.notes-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;overflow:hidden;margin-bottom:14px;max-height:0;opacity:0;transition:max-height .38s ease,opacity .26s ease;}
+.notes-card.open{max-height:900px;opacity:1;}
+.notes-head{padding:12px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(0,0,0,.06);flex-wrap:wrap;gap:8px;}
+.notes-head-left{display:flex;align-items:center;gap:8px;}
+.notes-icon{width:26px;height:26px;border-radius:7px;background:#eef3fd;display:flex;align-items:center;justify-content:center;}
+.notes-icon svg{width:12px;height:12px;stroke:#1a56db;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.notes-title{font-size:13px;font-weight:700;color:#1a1916;}
+.notes-sub{font-size:11px;color:#8a8880;font-family:'JetBrains Mono',monospace;max-width:360px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.npill{padding:3px 10px;background:#f5f4f0;border:1px solid rgba(0,0,0,.08);border-radius:20px;font-size:10px;font-weight:700;color:#5f5e5a;font-family:'JetBrains Mono',monospace;}
+.notes-body{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+@media(max-width:540px){.notes-body{grid-template-columns:1fr;}}
+.notes-feed{padding:14px;border-right:1px solid rgba(0,0,0,.06);display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto;}
+@media(max-width:540px){.notes-feed{border-right:none;border-bottom:1px solid rgba(0,0,0,.06);max-height:220px;}}
+.notes-feed::-webkit-scrollbar{width:3px;}
+.notes-feed::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:4px;}
+.note-card{border-radius:10px;padding:11px 13px;border:1px solid rgba(0,0,0,.07);}
+.note-card.user{border-top:3px solid #1a56db;}
+.note-card.system{border-top:3px solid #8a8880;background:#f8f7f5;}
+.note-card.warn{border-top:3px solid #b45309;}
+.nc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:6px;flex-wrap:wrap;}
+.nc-who{display:flex;align-items:center;gap:6px;}
+.nc-av{width:22px;height:22px;border-radius:6px;background:#eef3fd;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;color:#0c447c;font-family:'JetBrains Mono',monospace;flex-shrink:0;}
+.nc-av.sys{background:#f5f4f0;color:#5f5e5a;}
+.nc-av.wrn{background:#FEF3C7;color:#b45309;}
+.nc-name{font-size:12px;font-weight:700;color:#1a1916;}
+.nc-date{font-size:10px;color:#8a8880;font-family:'JetBrains Mono',monospace;}
+.nc-text{font-size:12px;color:#1a1916;line-height:1.5;}
+.nc-tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:9px;font-weight:700;background:#f5f4f0;color:#8a8880;border:1px solid rgba(0,0,0,.07);margin-top:6px;text-transform:uppercase;letter-spacing:.05em;}
+.no-notes{text-align:center;padding:2rem;color:#8a8880;font-size:12px;}
+.notes-compose{padding:14px;display:flex;flex-direction:column;gap:10px;}
+.compose-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a8880;}
+.note-ta{width:100%;padding:10px 12px;border:1px solid rgba(0,0,0,.1);border-radius:10px;font-size:12px;background:#f8f7f5;color:#1a1916;font-family:'Plus Jakarta Sans',sans-serif;resize:vertical;min-height:100px;outline:none;line-height:1.5;transition:border-color .15s,background .15s;}
+.note-ta:focus{border-color:#1a56db;background:#fff;box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.compose-foot{display:flex;align-items:center;justify-content:space-between;}
+.cc{font-size:10px;color:#b8b6b2;font-family:'JetBrains Mono',monospace;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:100;display:none;}
+.overlay.open{display:block;}
+.drawer{position:fixed;top:0;right:-480px;width:min(460px,96vw);height:100vh;background:#fff;border-left:1px solid rgba(0,0,0,.1);z-index:101;transition:right .26s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+.drawer.open{right:0;}
+.dw-head{padding:18px 20px;border-bottom:1px solid rgba(0,0,0,.07);display:flex;align-items:flex-start;justify-content:space-between;gap:12px;background:#f8f7f5;}
+.dw-id{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;color:#1a56db;}
+.dw-desc{font-size:12px;color:#5f5e5a;margin-top:3px;line-height:1.45;}
+.close-x{background:#f0efe9;border:1px solid rgba(0,0,0,.08);border-radius:7px;cursor:pointer;width:28px;height:28px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;}
+.close-x:hover{background:#e8e7e2;}
+.close-x svg{width:13px;height:13px;stroke:#5f5e5a;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.dw-body{padding:18px 20px;flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:16px;}
+.ds-hd{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a8880;padding-bottom:8px;border-bottom:1px solid rgba(0,0,0,.07);margin-bottom:2px;}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.di label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#8a8880;display:block;margin-bottom:3px;}
+.di span{font-size:13px;font-weight:600;color:#1a1916;}
+.tl{list-style:none;padding:0;}
+.tl-item{display:flex;gap:10px;padding-bottom:14px;position:relative;font-size:12px;}
+.tl-dot{width:7px;height:7px;border-radius:50%;background:#1a56db;flex-shrink:0;margin-top:3px;}
+.tl-item:not(:last-child)::after{content:'';position:absolute;left:3px;top:11px;bottom:0;width:1px;background:#f0efe9;}
+.tl-time{color:#8a8880;font-size:10px;font-family:'JetBrains Mono',monospace;margin-top:2px;}
+.dw-foot{padding:14px 20px;border-top:1px solid rgba(0,0,0,.07);display:flex;gap:8px;background:#f8f7f5;}
+.modal-bg{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.35);padding:1rem;}
+.modal-bg.open{display:flex;}
+.modal{background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.1);width:min(480px,100%);max-height:90vh;overflow-y:auto;display:flex;flex-direction:column;}
+.modal-head{padding:18px 20px 0;display:flex;align-items:center;justify-content:space-between;}
+.modal-head h2{font-size:15px;font-weight:700;letter-spacing:-.01em;}
+.modal-body{padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.frow{grid-template-columns:1fr;}}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8a8880;}
+.fg input,.fg select,.fg textarea{padding:8px 11px;border:1px solid rgba(0,0,0,.1);border-radius:8px;font-size:12px;background:#f8f7f5;color:#1a1916;outline:none;font-family:'Plus Jakarta Sans',sans-serif;transition:border-color .15s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:#1a56db;background:#fff;box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.fg textarea{min-height:80px;resize:vertical;line-height:1.5;}
+.modal-foot{padding:12px 20px;border-top:1px solid rgba(0,0,0,.07);display:flex;gap:8px;justify-content:flex-end;background:#f8f7f5;}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.1);border-top-color:#1a56db;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px;}
+.ph-row td div{height:11px;border-radius:4px;background:#f0efe9;animation:shimmer 1.4s infinite;}
+.toast-bar{margin-top:0;background:#f5f4f0;border:1px solid rgba(0,0,0,.07);border-radius:10px;padding:9px 14px;font-size:11px;font-family:'JetBrains Mono',monospace;color:#8a8880;display:flex;align-items:center;justify-content:center;gap:7px;transition:all .25s;}
+.toast-bar.ok{background:#edfaf3;border-color:rgba(14,122,78,.25);color:#0e7a4e;}
+.toast-bar.warn{background:#FEF3C7;border-color:rgba(180,83,9,.25);color:#b45309;}
+.tdot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:560px){.stats-row{grid-template-columns:repeat(2,1fr);} .toolbar{gap:6px;}}
+</style>
+ 
+<div class="header">
+  <div class="header-left">
+    <div class="hicon">
+      <svg viewBox="0 0 20 20"><path d="M3 5h14M3 10h9M3 15h6"/><circle cx="15" cy="13" r="3.5"/><path d="M15 11.5V13l1 1"/></svg>
+    </div>
+    <div>
+      <div class="htitle">BPEM Exception Manager</div>
+      <div class="hsub">business-process-exception-mgmt</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="live-pill"><span class="ldot"></span>Live</div>
+    <button class="btn btn-blue" onclick="fetchData()" id="refresh-btn">
+      <svg viewBox="0 0 16 16"><path d="M1.5 8A6.5 6.5 0 1 0 4 3.5"/><path d="M1.5 1.5v3h3"/></svg>
+      Refresh
+    </button>
+    <button class="btn btn-solid" onclick="openModal()">
+      <svg viewBox="0 0 16 16"><path d="M8 1.5v13M1.5 8h13"/></svg>
+      New Exception
+    </button>
+  </div>
+</div>
+ 
+<div class="stats-row">
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-lbl">Total</span><div class="stat-ico si-blue"><svg viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M4 7h6M4 5h6M4 9h3"/></svg></div></div>
+    <div class="stat-val" id="sv-total">—</div>
+    <div class="stat-bar"><div class="stat-bar-fill" id="sb-total" style="background:#1a56db;width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-lbl">Open</span><div class="stat-ico si-red"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5"/><path d="M7 4v3.5l2 1.5"/></svg></div></div>
+    <div class="stat-val red" id="sv-open">—</div>
+    <div class="stat-bar"><div class="stat-bar-fill" id="sb-open" style="background:#b91c1c;width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-lbl">In Progress</span><div class="stat-ico si-amber"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5"/><path d="M4 7h6"/></svg></div></div>
+    <div class="stat-val amber" id="sv-prog">—</div>
+    <div class="stat-bar"><div class="stat-bar-fill" id="sb-prog" style="background:#b45309;width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-lbl">Resolved</span><div class="stat-ico si-green"><svg viewBox="0 0 14 14"><circle cx="7" cy="7" r="5.5"/><path d="M4.5 7l2 2 3-3"/></svg></div></div>
+    <div class="stat-val green" id="sv-res">—</div>
+    <div class="stat-bar"><div class="stat-bar-fill" id="sb-res" style="background:#0e7a4e;width:0%"></div></div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-top"><span class="stat-lbl">Critical</span><div class="stat-ico si-red"><svg viewBox="0 0 14 14"><path d="M7 1.5L12.5 12h-11z"/><path d="M7 5.5v3M7 10v.5"/></svg></div></div>
+    <div class="stat-val red" id="sv-crit">—</div>
+    <div class="stat-bar"><div class="stat-bar-fill" id="sb-crit" style="background:#b91c1c;width:0%"></div></div>
+  </div>
+</div>
+ 
+<!-- URL PARAMETERS CARD -->
+<div class="url-card" id="url-params-card">
+  <div class="url-card-head" id="url-card-head">
+    <div class="url-head-left">
+      <div class="url-ico">
+        <svg viewBox="0 0 16 16"><path d="M2 4h12M2 8h8M2 12h5"/><circle cx="12" cy="11" r="2.8"/><path d="M12 9.8V11l.8.8"/></svg>
+      </div>
+      <div class="url-card-title">Context Parameters</div>
+    </div>
+    <div class="url-head-right">
+      <span class="url-badge-count zero" id="url-present-count">0 present</span>
+      <!-- Toggle switch — OFF (hidden) by default -->
+      <label class="tog-wrap" title="Show / hide parameters">
+        <span class="tog-lbl" id="tog-lbl">Show</span>
+        <span class="tog">
+          <input type="checkbox" id="url-tog">
+          <span class="tog-track"></span>
+          <span class="tog-thumb"></span>
+        </span>
+      </label>
+    </div>
+  </div>
+  <!-- Body hidden on load; opens when toggle is ON -->
+  <div class="url-card-body" id="url-card-body">
+    <div class="url-card-body-inner">
+      <div class="url-params-grid" id="url-params-grid"></div>
+      <div id="url-raw-section" style="display:none">
+        <div class="url-raw-wrap">
+          <div class="url-raw-lbl">Raw query string</div>
+          <div class="url-raw" id="url-raw-value"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 16 16"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M11 11l3 3"/></svg>
+    <input class="search-input" id="search" type="text" placeholder="Search exceptions…" oninput="renderTable()">
+  </div>
+  <select class="fsel" id="f-st" onchange="renderTable()"><option value="">All statuses</option><option>Open</option><option>In Progress</option><option>Resolved</option><option>Closed</option></select>
+  <select class="fsel" id="f-sv" onchange="renderTable()"><option value="">All severities</option><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select>
+  <select class="fsel" id="f-ty" onchange="renderTable()"><option value="">All types</option><option>Validation</option><option>Authorization</option><option>Workflow</option><option>Data</option></select>
+  <span class="rcount" id="rcount"></span>
+</div>
+ 
+<div class="table-card">
+  <div class="table-head">
+    <div class="table-head-left">
+      <span class="th-title">Exceptions</span>
+      <span class="tcount" id="tcount">0</span>
+    </div>
+    <div class="pp-wrap">
+      Rows: <select id="pp" onchange="pg=1;renderTable()"><option value="5">5</option><option value="8" selected>8</option><option value="15">15</option><option value="25">25</option></select>
+    </div>
+  </div>
+  <div class="table-scroll">
+    <table>
+      <colgroup><col style="width:110px"><col style="width:88px"><col style="width:100px"><col style="width:92px"><col style="min-width:180px"><col style="width:106px"><col style="width:96px"><col style="width:96px"></colgroup>
+      <thead><tr>
+        <th onclick="srt('id')">BPEM ID <span class="sort-arr" id="sa-id">↕</span></th>
+        <th onclick="srt('severity')">Severity <span class="sort-arr" id="sa-severity">↕</span></th>
+        <th onclick="srt('status')">Status <span class="sort-arr" id="sa-status">↕</span></th>
+        <th onclick="srt('type')">Type <span class="sort-arr" id="sa-type">↕</span></th>
+        <th onclick="srt('description')">Description <span class="sort-arr" id="sa-description">↕</span></th>
+        <th onclick="srt('assignee')">Assignee <span class="sort-arr" id="sa-assignee">↕</span></th>
+        <th onclick="srt('created')">Created <span class="sort-arr" id="sa-created">↕</span></th>
+        <th onclick="srt('updated')">Updated <span class="sort-arr" id="sa-updated">↕</span></th>
+      </tr></thead>
+      <tbody id="tbody">
+        <tr class="ph-row"><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td></tr>
+        <tr class="ph-row"><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td></tr>
+        <tr class="ph-row"><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagbar" id="pagbar" style="display:none">
+    <span class="pinfo" id="pinfo"></span>
+    <div class="pbtns" id="pbtns"></div>
+  </div>
+</div>
+ 
+<div class="notes-card" id="notes-card">
+  <div class="notes-head">
+    <div class="notes-head-left">
+      <div class="notes-icon"><svg viewBox="0 0 16 16"><rect x="2" y="2" width="12" height="12" rx="2"/><path d="M5 5.5h6M5 8h6M5 10.5h3.5"/></svg></div>
+      <div>
+        <div class="notes-title" id="notes-title">Notes</div>
+        <div class="notes-sub" id="notes-sub"></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span class="npill" id="npill">0 notes</span>
+      <button class="btn" onclick="closeNotes()"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg>Close</button>
+    </div>
+  </div>
+  <div class="notes-body">
+    <div class="notes-feed" id="notes-feed"></div>
+    <div class="notes-compose">
+      <div class="compose-lbl">Add a note</div>
+      <textarea class="note-ta" id="note-ta" placeholder="Write your note here…" maxlength="500" oninput="ucc()"></textarea>
+      <div class="compose-foot">
+        <span class="cc" id="cc">0 / 500</span>
+        <button class="btn btn-solid" onclick="addNote()"><svg viewBox="0 0 16 16"><path d="M1.5 8h13M8 1.5l6.5 6.5L8 14.5"/></svg>Post note</button>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="toast-bar" id="toastBar"><span class="tdot"></span><span id="toastMsg">Ready</span></div>
+ 
+<div class="overlay" id="ov" onclick="closeDw()"></div>
+<div class="drawer" id="drawer">
+  <div class="dw-head">
+    <div><div class="dw-id" id="dw-id">—</div><div class="dw-desc" id="dw-desc">—</div></div>
+    <button class="close-x" onclick="closeDw()"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+  </div>
+  <div class="dw-body" id="dw-body"></div>
+  <div class="dw-foot">
+    <button class="btn" style="flex:1;justify-content:center" onclick="showToast('Reassign coming soon','warn')">Reassign</button>
+    <button class="btn btn-solid" style="flex:1;justify-content:center" onclick="showToast('Status updated','ok')">Update status</button>
+  </div>
+</div>
+ 
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Create new exception</h2>
+      <button class="close-x" onclick="closeModal()"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="frow">
+        <div class="fg"><label>Type</label><select id="n-type"><option>Validation</option><option>Authorization</option><option>Workflow</option><option>Data</option></select></div>
+        <div class="fg"><label>Severity</label><select id="n-sev"><option>Critical</option><option>High</option><option>Medium</option><option>Low</option></select></div>
+      </div>
+      <div class="fg"><label>Description</label><textarea id="n-desc" placeholder="Describe the exception…"></textarea></div>
+      <div class="frow">
+        <div class="fg"><label>Assignee</label><input type="text" id="n-who" placeholder="e.g. J. Smith"></div>
+        <div class="fg"><label>System</label><input type="text" id="n-sys" placeholder="e.g. SAP MM"></div>
+      </div>
+      <div class="fg"><label>Business process</label><input type="text" id="n-proc" placeholder="e.g. Order-to-Cash"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-solid" onclick="createEx()">Create exception</button>
+    </div>
+  </div>
+</div>
+ 
+<script>
+/* ── URL PARAMETER PARSING ───────────────────────────────────── */
+const URL_PARAM_DEFS = [
+  { key: 'caseid',     label: 'Case ID',     group: 'Case' },
+  { key: 'caseuuid',   label: 'Case UUID',   group: 'Case' },
+  { key: 'personid',   label: 'Person ID',   group: 'Person' },
+  { key: 'personuuid', label: 'Person UUID', group: 'Person' },
+  { key: 'orgid',      label: 'Org ID',      group: 'Organisation' },
+  { key: 'orguuid',    label: 'Org UUID',    group: 'Organisation' },
+  { key: 'premiseid',  label: 'Premise ID',  group: 'Premise' },
+  { key: 'caid',       label: 'CA ID',       group: 'CA' },
+];
+ 
+function parseUrlParams() {
+  /* Support both ?query and #?hash-query patterns */
+  let search = window.location.search;
+  if (!search && window.location.hash && window.location.hash.includes('?')) {
+    search = '?' + window.location.hash.split('?')[1];
+  }
+  const p = new URLSearchParams(search);
+  const result = {};
+  URL_PARAM_DEFS.forEach(def => { result[def.key] = p.get(def.key) || null; });
+  return result;
+}
+ 
+function escH(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+ 
+function renderUrlParams() {
+  const params      = parseUrlParams();
+  const grid        = document.getElementById('url-params-grid');
+  const countBadge  = document.getElementById('url-present-count');
+  const rawSection  = document.getElementById('url-raw-section');
+  const rawValue    = document.getElementById('url-raw-value');
+ 
+  const presentCount = Object.values(params).filter(v => v !== null).length;
+  countBadge.textContent = presentCount + ' present';
+  countBadge.className   = 'url-badge-count' + (presentCount === 0 ? ' zero' : '');
+ 
+  if (presentCount === 0) {
+    grid.innerHTML = `<div class="url-none-msg" style="grid-column:1/-1">
+      <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.5"/><path d="M8 5v3.5M8 10.5v.5"/></svg>
+      No context parameters detected in the current URL.
+    </div>`;
+    rawSection.style.display = 'none';
+  } else {
+    grid.innerHTML = URL_PARAM_DEFS.map(def => {
+      const val = params[def.key], present = val !== null;
+      return `<div class="url-param-item ${present ? 'present' : 'absent'}">
+        <div class="url-param-label ${present ? 'present-lbl' : ''}">
+          <span>${def.label}</span>
+          <span class="url-status-dot ${present ? 'present' : 'absent'}"></span>
+        </div>
+        <div class="url-param-value ${present ? '' : 'absent-val'}">${present ? escH(val) : 'not provided'}</div>
+        <div class="url-param-key">${def.key}</div>
+      </div>`;
+    }).join('');
+ 
+    const qs = window.location.search ||
+               (window.location.hash.includes('?') ? '?' + window.location.hash.split('?')[1] : '');
+    rawValue.textContent     = qs || '(none)';
+    rawSection.style.display = 'block';
+  }
+}
+ 
+/* ── TOGGLE SWITCH ───────────────────────────────────────────── */
+(function initToggle() {
+  const tog  = document.getElementById('url-tog');
+  const body = document.getElementById('url-card-body');
+  const head = document.getElementById('url-card-head');
+  const lbl  = document.getElementById('tog-lbl');
+ 
+  /* Ensure hidden on load regardless of browser cache */
+  tog.checked = false;
+  body.classList.remove('open');
+  head.classList.remove('expanded');
+ 
+  tog.addEventListener('change', function () {
+    const on = this.checked;
+    body.classList.toggle('open', on);
+    head.classList.toggle('expanded', on);
+    lbl.textContent = on ? 'Hide' : 'Show';
+    lbl.className   = 'tog-lbl' + (on ? ' on' : '');
+  });
+})();
+ 
+/* ── DEMO: inject params via hash for preview ────────────────── */
+function injectDemoParams() {
+  if (!window.location.search && !window.location.hash.includes('?')) {
+    history.replaceState(null, '',
+      '#?caseid=CASE-00421&caseuuid=a3f1b2c4-9e12-4d3a-8b7f-0c1d2e3f4a5b' +
+      '&personid=PER-10892&orgid=ORG-5510&premiseid=PRM-7743');
+  }
+}
+ 
+/* ── APP DATA ────────────────────────────────────────────────── */
+const DATA=[
+  {id:'BPEM-1001',severity:'Critical',status:'Open',type:'Validation',description:'Purchase order total exceeds approval limit without authorization',assignee:'M. Chen',system:'SAP MM',process:'Procure-to-Pay',created:'2026-04-15',updated:'2026-04-19',p:1,tl:[{d:'2026-04-15 09:12',t:'Exception raised by workflow engine'},{d:'2026-04-15 11:30',t:'Assigned to M. Chen'},{d:'2026-04-18 14:00',t:'Escalated to finance director'}]},
+  {id:'BPEM-1002',severity:'High',status:'In Progress',type:'Authorization',description:'User account access granted outside normal provisioning process',assignee:'R. Patel',system:'SAP HR',process:'Hire-to-Retire',created:'2026-04-14',updated:'2026-04-18',p:2,tl:[{d:'2026-04-14 08:00',t:'Exception detected by access control'},{d:'2026-04-14 10:15',t:'Assigned to R. Patel'},{d:'2026-04-16 09:00',t:'Audit trail reviewed'}]},
+  {id:'BPEM-1003',severity:'Medium',status:'Resolved',type:'Workflow',description:'Invoice approval workflow skipped due to system timeout',assignee:'A. Torres',system:'SAP FI',process:'Order-to-Cash',created:'2026-04-12',updated:'2026-04-17',p:3,tl:[{d:'2026-04-12 13:00',t:'Timeout logged'},{d:'2026-04-13 09:30',t:'Assigned to A. Torres'},{d:'2026-04-17 16:45',t:'Root cause found; workflow restarted'}]},
+  {id:'BPEM-1004',severity:'Critical',status:'Open',type:'Data',description:'Duplicate vendor master records causing payment split',assignee:'S. Kim',system:'SAP MM',process:'Procure-to-Pay',created:'2026-04-13',updated:'2026-04-19',p:1,tl:[{d:'2026-04-13 07:55',t:'Duplicate flagged by data quality'},{d:'2026-04-13 11:00',t:'Assigned to S. Kim'},{d:'2026-04-19 08:30',t:'Vendor master cleanup in progress'}]},
+  {id:'BPEM-1005',severity:'Low',status:'Closed',type:'Validation',description:'GR/IR clearing account balance discrepancy under threshold',assignee:'L. Nguyen',system:'SAP FI',process:'Procure-to-Pay',created:'2026-04-10',updated:'2026-04-15',p:4,tl:[{d:'2026-04-10 10:00',t:'Discrepancy flagged'},{d:'2026-04-15 12:30',t:'Cleared — within tolerance'}]},
+  {id:'BPEM-1006',severity:'High',status:'Open',type:'Workflow',description:'Material document reversal blocked by period close lock',assignee:'D. Okonkwo',system:'SAP MM',process:'Inventory Management',created:'2026-04-16',updated:'2026-04-19',p:2,tl:[{d:'2026-04-16 14:20',t:'Reversal blocked by period-end'},{d:'2026-04-18 11:00',t:'Period unlock requested'}]},
+  {id:'BPEM-1007',severity:'Medium',status:'In Progress',type:'Authorization',description:'Sales order release performed by unauthorized user role',assignee:'F. Ivanova',system:'SAP SD',process:'Order-to-Cash',created:'2026-04-11',updated:'2026-04-16',p:3,tl:[{d:'2026-04-11 15:00',t:'Unauthorized action in audit log'},{d:'2026-04-16 14:00',t:'User role review initiated'}]},
+  {id:'BPEM-1008',severity:'Critical',status:'In Progress',type:'Data',description:'Payroll posting to incorrect cost center across multiple employees',assignee:'M. Chen',system:'SAP HR',process:'Hire-to-Retire',created:'2026-04-17',updated:'2026-04-19',p:1,tl:[{d:'2026-04-17 06:00',t:'Discrepancy detected post-payroll'},{d:'2026-04-17 08:30',t:'Escalated to payroll manager'},{d:'2026-04-18 13:45',t:'Corrective postings prepared'}]},
+  {id:'BPEM-1009',severity:'Low',status:'Resolved',type:'Validation',description:'Customer credit limit validation warning on small order',assignee:'A. Torres',system:'SAP SD',process:'Order-to-Cash',created:'2026-04-09',updated:'2026-04-14',p:4,tl:[{d:'2026-04-09 11:00',t:'Credit warning triggered'},{d:'2026-04-14 10:00',t:'Credit limit updated'}]},
+  {id:'BPEM-1010',severity:'High',status:'Open',type:'Workflow',description:'Plant maintenance order missing mandatory safety sign-off',assignee:'R. Patel',system:'SAP PM',process:'Asset Management',created:'2026-04-18',updated:'2026-04-19',p:2,tl:[{d:'2026-04-18 09:00',t:'Missing sign-off detected'},{d:'2026-04-19 07:00',t:'Safety officer contacted'}]},
+  {id:'BPEM-1011',severity:'Medium',status:'Closed',type:'Data',description:'Goods receipt quantity variance above tolerance requires review',assignee:'S. Kim',system:'SAP MM',process:'Procure-to-Pay',created:'2026-04-08',updated:'2026-04-13',p:3,tl:[{d:'2026-04-08 14:00',t:'Variance flagged during GR'},{d:'2026-04-13 16:00',t:'Variance accepted; closed'}]},
+  {id:'BPEM-1012',severity:'High',status:'In Progress',type:'Authorization',description:'Batch session executed with elevated background user privileges',assignee:'D. Okonkwo',system:'SAP Basis',process:'IT Operations',created:'2026-04-15',updated:'2026-04-18',p:2,tl:[{d:'2026-04-15 22:00',t:'Elevated privilege detected'},{d:'2026-04-18 10:00',t:'Access revocation in progress'}]},
+];
+const SEED={
+  'BPEM-1001':[{id:1,author:'M. Chen',ini:'MC',date:'2026-04-15 11:45',text:'Reviewed PO — 40% above threshold. Requested business justification.',tag:'Investigation',type:'user'},{id:2,author:'System',ini:'SY',date:'2026-04-16 08:00',text:'Automated escalation triggered. Finance director notified.',tag:'Auto',type:'system'},{id:3,author:'Finance Director',ini:'FD',date:'2026-04-18 14:30',text:'Reviewing justification. CFO approval required.',tag:'Escalation',type:'warn'}],
+  'BPEM-1004':[{id:1,author:'System',ini:'SY',date:'2026-04-13 08:00',text:'Duplicate vendor IDs V-10042 and V-10088. Payment €23,400 split.',tag:'Auto',type:'system'},{id:2,author:'S. Kim',ini:'SK',date:'2026-04-13 11:30',text:'Contacted vendor. Merge scheduled for maintenance window.',tag:'Action',type:'user'}],
+  'BPEM-1008':[{id:1,author:'System',ini:'SY',date:'2026-04-17 06:05',text:'Cost center mismatch: 47 payroll lines, value €312,450.',tag:'Auto',type:'system'},{id:2,author:'Payroll Mgr',ini:'PM',date:'2026-04-17 09:00',text:'Freeze applied. HR Business Partners notified.',tag:'Escalation',type:'warn'},{id:3,author:'M. Chen',ini:'MC',date:'2026-04-18 14:00',text:'Journal entries prepared. Awaiting CFO sign-off.',tag:'Update',type:'user'}],
+};
+ 
+let allData=[...DATA],notes={},sc='created',sd=-1,pg=1,selId=null;
+function initN(){allData.forEach(d=>{notes[d.id]=SEED[d.id]?[...SEED[d.id]]:[];});}
+function mfetch(){return new Promise(r=>setTimeout(()=>r([...DATA]),750));}
+ 
+async function fetchData(){
+  const btn=document.getElementById('refresh-btn');
+  btn.innerHTML='<span class="spin"></span>Refreshing';btn.disabled=true;
+  setToast('Fetching data…','');
+  const d=await mfetch();
+  allData=d;initN();pg=1;selId=null;closeNotes();renderStats();renderTable();
+  btn.innerHTML='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px"><path d="M1.5 8A6.5 6.5 0 1 0 4 3.5"/><path d="M1.5 1.5v3h3"/></svg> Refresh';
+  btn.disabled=false;showToast('Data refreshed — '+allData.length+' exceptions loaded','ok');
+}
+ 
+function renderStats(){
+  const n=allData.length,o=allData.filter(x=>x.status==='Open').length,ip=allData.filter(x=>x.status==='In Progress').length,rs=allData.filter(x=>x.status==='Resolved').length,cr=allData.filter(x=>x.severity==='Critical').length;
+  document.getElementById('sv-total').textContent=n;
+  document.getElementById('sv-open').textContent=o;
+  document.getElementById('sv-prog').textContent=ip;
+  document.getElementById('sv-res').textContent=rs;
+  document.getElementById('sv-crit').textContent=cr;
+  const pct=v=>n?Math.round(v/n*100)+'%':'0%';
+  document.getElementById('sb-total').style.width='100%';
+  document.getElementById('sb-open').style.width=pct(o);
+  document.getElementById('sb-prog').style.width=pct(ip);
+  document.getElementById('sb-res').style.width=pct(rs);
+  document.getElementById('sb-crit').style.width=pct(cr);
+}
+ 
+function getFil(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const fs=document.getElementById('f-st').value,fv=document.getElementById('f-sv').value,ft=document.getElementById('f-ty').value;
+  return allData.filter(d=>{
+    if(fs&&d.status!==fs)return false;
+    if(fv&&d.severity!==fv)return false;
+    if(ft&&d.type!==ft)return false;
+    if(q&&!Object.values(d).join(' ').toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>{let av=a[sc]||'',bv=b[sc]||'';if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase();}return av<bv?-sd:av>bv?sd:0;});
+}
+ 
+function sevB(s){const m={Critical:'bc',High:'bh',Medium:'bm',Low:'bl'};return`<span class="badge ${m[s]||''}"><span class="badge-dot"></span>${s}</span>`;}
+function staB(s){const m={Open:'bo','In Progress':'bip',Resolved:'br',Closed:'bcl'};return`<span class="badge ${m[s]||''}"><span class="badge-dot"></span>${s}</span>`;}
+ 
+function renderTable(){
+  const perPg=parseInt(document.getElementById('pp').value)||8;
+  const fil=getFil(),tot=fil.length,pages=Math.max(1,Math.ceil(tot/perPg));
+  if(pg>pages)pg=1;
+  const st=(pg-1)*perPg,sl=fil.slice(st,st+perPg);
+  document.getElementById('rcount').textContent=tot+' result'+(tot!==1?'s':'');
+  document.getElementById('tcount').textContent=tot;
+  const tb=document.getElementById('tbody');
+  if(!sl.length){
+    tb.innerHTML='<tr><td colspan="8"><div class="empty-state"><div class="empty-icon"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div><div class="empty-title">No exceptions found</div><div class="empty-sub">Try adjusting your filters</div></div></td></tr>';
+    document.getElementById('pagbar').style.display='none';return;
+  }
+  tb.innerHTML=sl.map(d=>`<tr data-id="${d.id}" class="${selId===d.id?'sel':''}" onclick="selRow('${d.id}')">
+    <td><span class="id-link" onclick="openDw('${d.id}');event.stopPropagation()">${d.id}</span></td>
+    <td>${sevB(d.severity)}</td>
+    <td>${staB(d.status)}</td>
+    <td class="mono">${d.type}</td>
+    <td class="desc-td" title="${d.description}">${d.description}</td>
+    <td class="mono">${d.assignee}</td>
+    <td class="mono">${d.created}</td>
+    <td class="mono">${d.updated}</td>
+  </tr>`).join('');
+  const pb=document.getElementById('pagbar');pb.style.display='flex';
+  document.getElementById('pinfo').textContent=`${st+1}–${Math.min(st+perPg,tot)} of ${tot}`;
+  const pbs=document.getElementById('pbtns');
+  let h=`<button class="pb" onclick="gp(${pg-1})" ${pg===1?'disabled':''}>‹</button>`;
+  for(let i=1;i<=Math.min(pages,7);i++)h+=`<button class="pb ${i===pg?'on':''}" onclick="gp(${i})">${i}</button>`;
+  if(pages>7)h+=`<span style="font-size:11px;color:#8a8880;padding:0 3px">…</span>`;
+  h+=`<button class="pb" onclick="gp(${pg+1})" ${pg===pages?'disabled':''}>›</button>`;
+  pbs.innerHTML=h;
+  ['id','severity','status','type','description','assignee','created','updated'].forEach(c=>{
+    const el=document.getElementById('sa-'+c);
+    if(el){el.textContent=sc===c?(sd===1?'↑':'↓'):'↕';el.className='sort-arr'+(sc===c?' on':'');}
+  });
+}
+ 
+function gp(p){pg=p;renderTable();}
+function srt(col){sc===col?sd*=-1:(sc=col,sd=1);renderTable();}
+ 
+function selRow(id){
+  if(selId===id){selId=null;closeNotes();renderTable();return;}
+  selId=id;renderTable();openNotes(id);
+}
+ 
+function openNotes(id){
+  const d=allData.find(x=>x.id===id);if(!d)return;
+  document.getElementById('notes-title').textContent='Notes — '+d.id;
+  document.getElementById('notes-sub').textContent=d.description;
+  renderFeed(id);
+  document.getElementById('notes-card').classList.add('open');
+  document.getElementById('note-ta').value='';ucc();
+  setTimeout(()=>document.getElementById('notes-card').scrollIntoView({behavior:'smooth',block:'nearest'}),260);
+}
+ 
+function renderFeed(id){
+  const ns=notes[id]||[];
+  document.getElementById('npill').textContent=ns.length+' note'+(ns.length!==1?'s':'');
+  const feed=document.getElementById('notes-feed');
+  if(!ns.length){feed.innerHTML='<div class="no-notes">No notes yet — add one on the right.</div>';return;}
+  feed.innerHTML=ns.map(n=>`<div class="note-card ${n.type}">
+    <div class="nc-top">
+      <div class="nc-who"><div class="nc-av ${n.type==='system'?'sys':n.type==='warn'?'wrn':''}">${n.ini}</div><span class="nc-name">${n.author}</span></div>
+      <span class="nc-date">${n.date}</span>
+    </div>
+    <div class="nc-text">${n.text}</div>
+    ${n.tag?`<span class="nc-tag">${n.tag}</span>`:''}
+  </div>`).join('');
+  feed.scrollTop=feed.scrollHeight;
+}
+ 
+function addNote(){
+  const ta=document.getElementById('note-ta'),text=ta.value.trim();
+  if(!text||!selId)return;
+  if(!notes[selId])notes[selId]=[];
+  const now=new Date(),ds=now.toISOString().slice(0,10)+' '+now.toTimeString().slice(0,5);
+  notes[selId].push({id:Date.now(),author:'You',ini:'YO',date:ds,text,tag:'Note',type:'user'});
+  ta.value='';ucc();renderFeed(selId);showToast('Note posted','ok');
+}
+function ucc(){document.getElementById('cc').textContent=document.getElementById('note-ta').value.length+' / 500';}
+function closeNotes(){document.getElementById('notes-card').classList.remove('open');if(selId){selId=null;renderTable();}}
+ 
+function openDw(id){
+  const d=allData.find(x=>x.id===id);if(!d)return;
+  document.getElementById('dw-id').textContent=d.id;
+  document.getElementById('dw-desc').textContent=d.description;
+  document.getElementById('dw-body').innerHTML=`
+    <div style="display:flex;gap:7px;flex-wrap:wrap">${sevB(d.severity)}${staB(d.status)}<span class="badge bcl">${d.type}</span></div>
+    <div><div class="ds-hd">Details</div><div class="dg">
+      <div class="di"><label>System</label><span>${d.system}</span></div>
+      <div class="di"><label>Business process</label><span>${d.process}</span></div>
+      <div class="di"><label>Assignee</label><span>${d.assignee}</span></div>
+      <div class="di"><label>Priority</label><span>${['—','P1 Critical','P2 High','P3 Medium','P4 Low'][d.p]}</span></div>
+      <div class="di"><label>Created</label><span>${d.created}</span></div>
+      <div class="di"><label>Updated</label><span>${d.updated}</span></div>
+    </div></div>
+    <div><div class="ds-hd">Description</div><p style="font-size:12px;line-height:1.6;color:#1a1916">${d.description}</p></div>
+    <div><div class="ds-hd">Activity timeline</div><ul class="tl">${d.tl.map(t=>`<li class="tl-item"><div class="tl-dot"></div><div><div style="color:#1a1916;font-size:12px;font-weight:600">${t.t}</div><div class="tl-time">${t.d}</div></div></li>`).join('')}</ul></div>`;
+  document.getElementById('ov').classList.add('open');
+  document.getElementById('drawer').classList.add('open');
+}
+function closeDw(){document.getElementById('ov').classList.remove('open');document.getElementById('drawer').classList.remove('close');}
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+ 
+function createEx(){
+  const desc=document.getElementById('n-desc').value.trim();
+  if(!desc){showToast('Please enter a description','warn');return;}
+  const sev=document.getElementById('n-sev').value;
+  const pm={Critical:1,High:2,Medium:3,Low:4};
+  const newId='BPEM-'+(1000+allData.length+1);
+  const today=new Date().toISOString().slice(0,10);
+  allData.unshift({id:newId,severity:sev,status:'Open',type:document.getElementById('n-type').value,
+    description:desc,assignee:document.getElementById('n-who').value.trim()||'Unassigned',
+    system:document.getElementById('n-sys').value.trim()||'Unknown',
+    process:document.getElementById('n-proc').value.trim()||'General',
+    created:today,updated:today,p:pm[sev],
+    tl:[{d:today+' '+new Date().toTimeString().slice(0,5),t:'Exception created manually'}]});
+  notes[newId]=[];
+  renderStats();renderTable();closeModal();
+  document.getElementById('n-desc').value='';
+  showToast(newId+' created successfully','ok');
+}
+ 
+let toastTimer=null;
+function showToast(msg,type){
+  const bar=document.getElementById('toastBar');
+  document.getElementById('toastMsg').textContent=msg;
+  bar.className='toast-bar'+(type?' '+type:'');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{bar.className='toast-bar';document.getElementById('toastMsg').textContent='Ready';},3000);
+}
+function setToast(msg,type){const bar=document.getElementById('toastBar');document.getElementById('toastMsg').textContent=msg;bar.className='toast-bar'+(type?' '+type:'');}
+ 
+injectDemoParams();
+renderUrlParams();
+fetchData();
+</script>
+ 
