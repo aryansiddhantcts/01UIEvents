@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Extension Samples</title>
+</head>
+
+<body>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 20px;
+			background-color: #FFFFFF;
+			/* Sets the background color of the entire web page */
+			color: #475E75;
+		}
+	</style>
+
+	<h3>Mashup: Parameters</h3>
+	<br>
+	<table style="border: none;width: 400px;">
+		<tr>
+			<td style="width: 100px;"">1st Parameter:</td>
+			<td style="width: 200px;""><input type="text" id="Parameter1" readonly></td>
+		</tr>
+		<tr>
+			<td style="width: 100px;">2nd Parameter:</td>
+			<td tyle="width: 200px;"> <input type="text" id="Parameter2" readonly></td>
+		</tr>
+	</table>
+	<script>
+		// Get Parameters from iFrame
+		function getUrlParams() {
+			const urlParams = new URLSearchParams(window.location.search);
+			const param1 = urlParams.get('param1');
+			const param2 = urlParams.get('param2');
+			console.log(param1, param2); // Outputs: value1 value2
+			// Display the variable in the HTML element
+			document.getElementById('Parameter1').value = param1;
+			document.getElementById('Parameter2').value = param2;
+		}
+		window.onload = getUrlParams;
+	</script>
+	<br>
+	<br>
+	<h3>Mashup: Buttons that interact with the solution</h3>
+	<br>
+	<input type='button' value='Open Case List' onclick='openNewCnsCaseList();' style="width: 150px;" />
+	<input type='button' value='Open Case Create' onclick='openNewCnsCaseCreate();' style="width: 150px;" />
+	<script>
+		// Open Case List View
+		function openNewCnsCaseList() {
+			var oCase = { operation: "navigation", params: { routingKey: "case", viewType: "list" } };
+			window.parent.postMessage(oCase, '*')
+		}
+		// Open Case Quick Create view
+		function openNewCnsCaseCreate() {
+			var oCase = { operation: "navigation", params: { routingKey: "case", viewType: "quickcreate" } };
+			self.window.parent.postMessage(oCase, '*')
+		}
+	</script>
+	<br>
+</body>
+
+</html>
